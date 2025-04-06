@@ -12,12 +12,31 @@
 
 % Para imágenes
 \usepackage{graphicx}
+\usepackage{subcaption}
 
 % Para control exacto de posición de figuras con [H]
 \usepackage{float}
 
 % Para matemática.
 \usepackage{amsmath}
+
+% Para código.
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{lightgray}{RGB}{50, 50, 50}
+
+\lstset{
+	language=Python,
+	backgroundcolor=\color{lightgray}, % Fondo negro (podés cambiarlo)
+	basicstyle=\ttfamily\footnotesize\color{white}, % Texto blanco, fuente monoespaciada
+	frame=none, % Sin recuadro
+	rulecolor=\color{black}, % Por si hay bordes, que no se vean
+	breaklines=true, % Romper líneas largas
+	tabsize=2,
+	keywordstyle=\color{cyan},
+	commentstyle=\color{gray},
+	stringstyle=\color{orange}
+}
 
 % Índice.
 \usepackage{titlesec}
