@@ -1,0 +1,74 @@
+% Para tildes y codificación
+\usepackage[utf8]{inputenc}
+
+% Para texto en español (opcional, pero recomendable si usás acentos o babel)
+\usepackage[spanish]{babel}
+
+% Márgenes.
+\usepackage[margin=2cm]{geometry}
+
+% Bibliografía.
+\usepackage{cite}
+
+% Para imágenes
+\usepackage{graphicx}
+
+% Para control exacto de posición de figuras con [H]
+\usepackage{float}
+
+% Índice.
+\usepackage{titlesec}
+\titleformat{\chapter}
+[block]{}{}{}
+{\Large\texttt}% code before actual title
+[\hrule] % code after the title
+\titlespacing*{\chapter} % command to format
+{0pt}{0pt}{4ex}[0pt]
+
+\usepackage{chngcntr}
+\setcounter{tocdepth}{0}
+
+\renewcommand\thechapter{}
+\renewcommand\thesection{\@arabic\c@section}
+\renewcommand\thesubsection{\@arabic\c@section.\@arabic\c@subsection}
+\newcommand{\entry}[1]{\addcontentsline{toc}{chapter}{#1}\chapter*{#1}\setcounter{section}{0}}
+
+% Título.
+\makeatletter
+\renewcommand{\maketitle}{%
+	\null
+	
+	\vspace{2em} 
+	
+	\begin{center}
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=0.9\textwidth]{Figures/Logos/UBA.png}
+		\end{minipage}%
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=0.9\textwidth]{Figures/Logos/df.jpeg}
+		\end{minipage}%
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=0.9\textwidth]{Figures/Logos/Flip.png}
+		\end{minipage}
+	\end{center}
+
+	\vspace{2em} 
+
+	\begin{flushleft}%
+		{\LARGE\textbf{\@title}\par} \vspace{3em}
+		{\Large 
+
+			\begin{tabular}[t]{@{}p{4.5cm}@{}l}%
+				{Estudiante:} & Ignacio Pablo Hernando\footnotemark \\ \\
+				{Director:}    & Pablo Cobelli\footnotemark \\ \\
+				{Lugar de trabajo:} & Laboratorio de Turbulencia Geof\'\i sica \\
+				& DF, FCEN, UBA \& INFINA CONICET \\
+			\end{tabular}\par
+		}
+		\vspace{1em}
+	\end{flushleft} \par
+	
+}
