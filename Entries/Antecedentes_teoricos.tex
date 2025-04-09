@@ -63,6 +63,8 @@ Una cosa interesante es que si escribimos explícitamente $S_\eta(k) \propto k|\
 Que sería la energía cinética efectivamente.
 
 
+\section{Interacciones Resonantes de $N$ ondas} % 
+
 \section{Espectro de Kolmogorov-Zakharov-Filonenko.}
 Experimentalmente es posible observar que el espectro de energía para la elevación de la superficie libre en un determinado rengo de números de ondas (de equilibrio) resulta $E_\omega  \sim A\omega^s$. En este rango la mayor contribución a la dinámica se debe a los efectos no lineales, ya que los viscosos son menores. Es posible calcular los exponentes de forma analítica a partir de las ecuaciones para la superficie libre \cite{zakharovEnergySpectrumStochastic1967}
 
@@ -75,12 +77,34 @@ La densidad de energía se puede escribir como:
 Donde $n$ es la \textit{wave action}, análoga a la cantidad de partículas (o ondas) con ese número de onda.
 
 \subsection*{Ondas de gravedad \cite{zakharovEnergySpectrumStochastic1967}}
+Tenemos que $E(\omega)=\omega^4n(\omega)$ y pueden calcular que para $n(\omega)=A\omega^s$ hay soluciones $s=-1$, que se corresponde con la distribución de Rayleigh-Jeans (equilibrio termodinámico para el caso lineal, con PDF Gaussiana \cite{nazarenkoWaveTurbulence2011}), y $s=-8$ que es la análoga al espectro de Kolmogorov para turbulencia hidrodinámica.
 
+Las equivalencias son \cite{falconExperimentsSurfaceGravity2022}:
 
+\begin{equation}
+	E_k^g \sim P^{1/3} g^{1/2} k^{-5/2} \qquad S_k^g \sim P^{1/3} g^{-1/2} k^{-5/2} \qquad S_\omega^g  \sim P^{1/3} g \omega^{-4}
+\end{equation}  
+
+Es posible llegar a estos resultados de forma dimensional, pero para que el exponente sea único hay que asumir a priori que el flujo en el espectro de energía va en el orden $P^{1/(N-1)}$ con $N$ el número de ondas interactuantes más bajo, siendo $N=4$ para ondas de gravedad.
+
+Para hacer los cambios hay que usar la relación de dispersión:
+
+\begin{equation}
+	\omega^2=gk
+\end{equation}
 
 \subsection*{Ondas de capilaridad \cite{zakharovWeakTurbulenceCapillary1971}}
+Al igual que para las ondas de gravedad calculan $n(\omega)$, llegando esta vez a los resultados de $s=-1$ que es la de Rayleigh-Jeans y $s=-17/6$ que es la que nos interesa. Con esto:
 
+\begin{equation}
+	E_k^s \sim P^{1/2} \left(\frac{\gamma}{\rho}\right)^{1/4} k^{-7/4} \qquad S_k^s \sim P^{1/2} \left(\frac{\gamma}{\rho}\right)^{-3/4} k^{-15/4} \qquad S_\omega^s  \sim P^{1/2} \left(\frac{\gamma}{\rho}\right)^{1/6} \omega^{-17/6}
+\end{equation}   
 
+Acá la relación de dispersión es:
+
+\begin{equation}
+	\omega^2 = \frac{\gamma}{\rho}k^3
+\end{equation}
 
 
 
