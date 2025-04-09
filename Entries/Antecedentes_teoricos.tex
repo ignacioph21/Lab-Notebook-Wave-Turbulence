@@ -1,4 +1,89 @@
 \entry{Antecedentes Teóricos}
+
+\section{Espectro de energía y PSD.}
+Nos interesará estudiar la transferencia de energía entre escalas experimentalmente, que estará caracterizada por la densidad espectral de energía $E_k$ tal que la magnitud $E = \int E_k dk$ se conserva. 
+
+Para esto vamos a empezar dando las definiciones básicas de lo que estaremos usando.
+
+Como mencioné anteriormente, la energía total va a venir dada por una distribución, que puede escribirse ya sea en el espacio de $k$ o de $\omega$, vinculados ambos a través de la relación de dispersión lineal $\omega(k)$. Entonces:
+
+\begin{equation}
+	E = \int E(\vec k) d\vec k = \int k E(\vec k) dkd\theta \equiv \int E(k) dk = \int E(\omega) d\omega
+\end{equation}
+
+O sea, estamos definiendo $E(k) = 2\pi E(\vec k)$ y la relación entre las densidades en espacio de frecuencia y momento está dada por: $E(k) dk = E(\omega) d\omega$.
+
+Esta energía será la de la superficie libre. En principio sabemos que se dará un balance entre la energía cinética y la potencial, como una especie de equipartición \cite{kunduFluidMechanics2014}. Se suele calcular la potencial (a partir de las mediciones para la superficie libre $\eta$) y se multiplica por 2 \cite{deikeEtudesExperimentalesNumeriques2013}. Vamos a entonces trabajar con las energías potenciales, cuya expresión depende de si tenemos ondas de gravedad o capilares. Tenemos que:
+
+\begin{equation}
+	E_p^g = \frac{1}{2} \rho g \int \eta^2 dS \qquad E_p^s = \gamma \int\sqrt{1+(\nabla\eta)^2} - 1 dS
+\end{equation}
+
+Acá la energía por capilaridad es básicamente la integral del elemento de superficie $ds$. Se puede aproximar a primer orden para una onda armónica en el caso lineal (con $eta\ll1$), entonces \cite{deikeEtudesExperimentalesNumeriques2013}
+
+\begin{equation}
+	E_p^s = \frac{1}{2} \gamma\int k^2\eta^2dS
+\end{equation}
+
+Usando que $(1+\varepsilon)^n\approx1+n\varepsilon$. Ahora vamos a querer pasar al espacio de Fourier, transformando las energías:
+
+\begin{equation}
+	E_p^g = \frac{\rho g}{2} \int |\eta_{\vec k}|^2d\vec k \qquad E_p^s = \frac{\gamma}{2} \int k^2|\eta_{\vec k}|^2d\vec k
+\end{equation}
+
+Donde $\eta_{\vec k}$ es la transformada de Fourier de $\eta$:
+
+\begin{equation}
+	\eta(\vec k) = \frac{1}{2\pi}\int\eta(\vec r)e^{-i\vec k\cdot\vec r} d\vec r
+\end{equation}
+
+Podemos integrar en cilíndricas para definir $\eta_k = 2\pi k\eta_{\vec k}$. Las densidades espectrales de energía van a ser los integrandos. 
+
+Por último vamos a definir la Power Spectral Density (PSD) que va a ser lo más sencillo para trabajar experimentalmente:
+
+\begin{equation}
+	S_\eta(\omega) = \frac{1}{T} |\eta_\omega|^2 \qquad S_\eta(k) = \frac{1}{L^2} |\eta_k|^2
+\end{equation}
+
+Acá ahora $\eta(\omega) = \frac{1}{\sqrt{2\pi}}\int\eta(t)e^{i\omega t}$ es la transformada de Fourier respecto al tiempo. Además para obtener ya sea $\eta(t)$ o $\eta(\vec r)$ se puede promediar en el tiempo o espacio, con lo cual en realidad sería $S_\eta\propto\langle |\eta|^2 \rangle$ (y técnicamente el promedio sería en el ensamble, pero consideramos al sistema ergódico). \cite{falconExperimentsSurfaceGravity2022}
+
+Podemos relacionar las PSD en ambos espacios como $S(\omega)d\omega=S(k)dk$. De esta forma entonces podemos obtener la densidad de energía a partir de la PSD como:
+
+\begin{equation}
+		E^g(k) = \frac{\rho g}{2} S_\eta(k) \qquad E^s(k)=\frac{\gamma}{2}k^2S_\eta(k)
+\end{equation}
+
+
+Una cosa interesante es que si escribimos explícitamente $S_\eta(k) \propto k|\eta_{\vec k}|^2$ entonces nos queda en ambos casos:
+
+\begin{equation}
+	E(k) \propto \omega^2|\eta_{\vec k}|^2 \propto |\dot \eta_{\vec k}|^2 
+\end{equation}
+
+Que sería la energía cinética efectivamente.
+
+
+\section{Espectro de Kolmogorov-Zakharov-Filonenko.}
+Experimentalmente es posible observar que el espectro de energía para la elevación de la superficie libre en un determinado rengo de números de ondas (de equilibrio) resulta $E_\omega  \sim A\omega^s$. En este rango la mayor contribución a la dinámica se debe a los efectos no lineales, ya que los viscosos son menores. Es posible calcular los exponentes de forma analítica a partir de las ecuaciones para la superficie libre \cite{zakharovEnergySpectrumStochastic1967}
+
+La densidad de energía se puede escribir como:
+
+\begin{equation}
+	E(\vec k) = \omega(\vec k) n(\vec k)
+\end{equation}  
+
+Donde $n$ es la \textit{wave action}, análoga a la cantidad de partículas (o ondas) con ese número de onda.
+
+\subsection*{Ondas de gravedad \cite{zakharovEnergySpectrumStochastic1967}}
+
+
+
+\subsection*{Ondas de capilaridad \cite{zakharovWeakTurbulenceCapillary1971}}
+
+
+
+
+
 %Estos son los antecedentes Teóricos. Más antecedentes.
 %
 %Esta es una ecuación:
