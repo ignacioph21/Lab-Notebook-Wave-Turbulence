@@ -39,6 +39,7 @@ Kolmogorov-Obukhov plantearon un argumento dimensional donde los únicos paráme
 
 \begin{equation}
 	E(k) = 4\pi k^2E(\vec k) = C\varepsilon^{2/3}k^{-5/3}
+	\label{eq:Kolmogorov_5_3}
 \end{equation}
 
 Que es uno de los resultados más fuertes sobre turbulencia, en acuerdo con muchos resultados experimentales. Sin embargo, para momentos más altos del campo de velocidades empieza a haber diferencias más y más grandes, debido al fenómeno de \textit{intermitencia}, donde se producen fluctuaciones en locales en $\varepsilon$.
@@ -152,7 +153,7 @@ Con $Q=\lambda q$ y $P=p / \lambda$ tales que $Q$ y $P$ tengan las mismas unidad
 	i\frac{\partial a}{\partial t} = \frac{\delta \mathcal{H}}{\delta a^*}
 \end{equation}
 
-Con los corchetes en las coordenadas originales\footnote{A veces, parece que en las nuevas variables ($\{\cdot,\cdot\}_{a,a^*}$) se escribe el corchete con un factor $i$ adelante}:
+Con los corchetes en las coordenadas originales\footnote{A veces, parece que en las nuevas variables ($\{\cdot,\cdot\}_{a,a^*}$) se escribe el corchete con un factor $i$ adelante.}:
 
 \begin{equation}
 	\{a(\vec r), a(\pvec r')\}_{Q,P} = \{a^*(\vec r), a^*(\pvec r')\}_{Q,P} = 0 \qquad \{a(\vec r), a^*(\pvec r')\}_{Q,P} = i\delta(\vec r - \pvec r')
@@ -175,6 +176,7 @@ Es posible mostrar usando los corchetes para la variable $a$ en el espacio real 
 \begin{equation}
 	i\frac{\partial a_{\vec k}}{\partial t} = \frac{\delta \mathcal{H}}{\delta a_{\vec k}^*}
 \end{equation}
+
 
 \section{Desarrollo perturbativo del Hamiltoniano.}
 Nos va a interesar escribir el Hamiltoniano como una serie de potencias de $a$ y $a^*$. El término de orden 0, i.e. $\mathcal{H}_0$, no es relevante, ya que es una constante que no aparece en la ecuación de movimiento al derivar, y el término de orden 1, $\mathcal{H}_1$, podemos eliminarlo asumiendo que el medio está en equilibrio cuando las amplitudes de las ondas son 0, y el mínimo está en $a=a^*=0$. De esta forma nos queda:
@@ -205,19 +207,23 @@ Los términos de orden superior se pueden interpretar como términos de interacc
 
 Para las interacciones de tres ondas tenemos:
 
-\begin{align}
-	\mathcal{H}_3 &= \frac{1}{2}\int\big(V_{123}b^*_1b_2b_3+\text{c.c.}\big)\delta(\vec k_1-\vec k_2 -\vec k_3) d\vec k_1d\vec k_2d\vec k_3 \\ &+ \frac{1}{6} \int\big(U_{123}b^*_1b^*_2b^*_3+\text{c.c.}\big)\delta(\vec k_1 + \vec k_2 + \vec k_3) d\vec k_1d\vec k_2d\vec k_3
-\end{align} 
+\begin{equation}
+	\begin{split}
+		\mathcal{H}_3 &= \frac{1}{2}\int\big(V_{123}b^*_1b_2b_3+\text{c.c.}\big)\delta(\vec k_1-\vec k_2 -\vec k_3) d\vec k_1d\vec k_2d\vec k_3 \\ &+ \frac{1}{6} \int\big(U_{123}b^*_1b^*_2b^*_3+\text{c.c.}\big)\delta(\vec k_1 + \vec k_2 + \vec k_3) d\vec k_1d\vec k_2d\vec k_3
+	\end{split}
+\end{equation} 
 
 Donde tenemos unos coeficientes $V_{123}$ y $U_{123}$ que nos hablan de la magnitud de la interacción. El primer término describe procesos de la forma $1\rightarrow2$ y  $2\rightarrow1$, mientras que el segundo describe procesos del tipo $3\rightarrow0$ y $0\rightarrow3$, que son aniquilaciones de tres ondas hacia el vacío o creación espontánea de tres ondas por fluctuaciones. % 
 
 Por otro lado, para las interacciones de cuatro ondas tenemos:
 
-\begin{align}
-	\mathcal{H}_4 &= \frac{1}{4} \int W_{1234}b1^*b_2^*b_3b_4\delta(\vec k_1+\vec k_2-\vec k_3-\vec k_4) d\vec k_1d\vec k_2d\vec k_3d\vec k_4 \\
-	&+\int \big(G_{1234}b_1b_2^*b_3^*b_4^* + \text{c.c.}\big) \delta(\vec k_1-\vec k_2-\vec k_3-\vec k_4) d\vec k_1d\vec k_2d\vec k_3d\vec k_4 \\
-	&+\int \big(R^*_{1234}b_1b_2b_3b_4 + \text{c.c.}\big) \delta(\vec k_1+\vec k_2+\vec k_3+\vec k_4) d\vec k_1d\vec k_2d\vec k_3d\vec k_4
-\end{align}
+\begin{equation}
+	\begin{split}
+		\mathcal{H}_4 &= \frac{1}{4} \int W_{1234}b1^*b_2^*b_3b_4\delta(\vec k_1+\vec k_2-\vec k_3-\vec k_4) d\vec k_1d\vec k_2d\vec k_3d\vec k_4 \\
+		&+\int \big(G_{1234}b_1b_2^*b_3^*b_4^* + \text{c.c.}\big) \delta(\vec k_1-\vec k_2-\vec k_3-\vec k_4) d\vec k_1d\vec k_2d\vec k_3d\vec k_4 \\
+		&+\int \big(R^*_{1234}b_1b_2b_3b_4 + \text{c.c.}\big) \delta(\vec k_1+\vec k_2+\vec k_3+\vec k_4) d\vec k_1d\vec k_2d\vec k_3d\vec k_4
+	\end{split}	
+\end{equation}
 
 Donde ahora tenemos procesos del tipo $2\rightarrow2$ para el primer término, $1\rightarrow3$ y $3\rightarrow1$ para el segundo, $4\rightarrow0$ y $0\rightarrow4$ para el tercero.
  
@@ -227,7 +233,7 @@ Notemos además que si hay presentes términos con una cantidad distinta de "par
 
 
 \subsection*{Interacciones Resonantes de $N$ ondas} % 
-En general vamos a poder tener interacciones de tanta cantidad de ondas como querramos, a medida que aumentemos el orden del Hamiltoniano de interacción. Éstas son integrales de colisiones como las de la Ecuación de Boltzmann.
+En general vamos a poder tener interacciones de tanta cantidad de ondas como querramos, a medida que aumentemos el orden del Hamiltoniano de interacción. Las derivadas de estos términos del Hamiltoniano son integrales de colisiones $I_{\vec k}^N$ de $N$ ondas, como las de la Ecuación de Boltzmann. 
 
 Ahora bien, en general va a ser suficiente con llegar al primer término no nulo, tal que se satisfagan la conservación de lo que en cuántica serían el momento y la energía: 
 
@@ -236,7 +242,7 @@ Ahora bien, en general va a ser suficiente con llegar al primer término no nulo
 	\label{eq:condición_resonancia}
 \end{equation}
 
-Los signos corresponderán a si la "partícula" ingresa o sale. 
+Los signos corresponderán a si la "partícula'' ingresa o sale. 
 
 Si no se satisface la segunda condición de resonancia entonces el término correspondiente del Hamiltoniano puede eliminarse mediante transformaciones canónicas apropiadas, como se verá más adelante \cite{zakharovKolmogorovSpectraTurbulence1992}.
 
@@ -262,7 +268,7 @@ Para el caso en que tenemos una relación de dispersión del tipo $\omega\sim k^
 	\label{fig:solución_condición_resonante}
 \end{figure}
 
-Para las ondas de gravedad $\alpha=1/2$ con lo cual las interacciones resonantes de 3 ondas no están permitidas (sino serían ondas con energía negativa).
+Para las ondas de gravedad $\alpha=1/2$ con lo cual las interacciones resonantes de 3 ondas no están permitidas (sino serían ondas con energía negativa). En el caso particular en que todas las ondas son colineales (reducimos el problema efectivamente a 1D, aunque la energía sigue distribuída en 2D) la mínima cantidad de ondas interactuantes resulta ser $N=5$. \cite{nazarenkoWaveTurbulence2011}
 
 \section{Eliminación de los términos no resonantes.}
 Vamos a querer mostrar que efectivamente en el caso de que un término sea no resonante, o sea, que no cumple la condición \eqref{eq:condición_resonancia}, existirá una transformación canónica a nuevas variables $c_{\vec k}, c_{\vec k}^*$ en las cuales ese término no aparece en el Hamiltoniano de interacción. 
@@ -295,11 +301,13 @@ Es posible hacer exactamente lo mismo para el caso en que no hay triadas resonan
 
 Donde el coeficiente de interacción resulta:
 
-\begin{align}
-	T_{1234} = W_{1234} &-\frac{U_{-1-212}U_{-3-434}}{\omega_3+\omega_4+\omega_{3+4}} + \frac{V^*_{1+212}V_{3+434}}{\omega_1+\omega_2-\omega_{1+2}} 	-\frac{V^*_{131-3}V_{424-2}}{\omega_{4-2}+\omega_2-\omega_4} \\ 
-	&- \frac{V^*_{242-4}V_{313-1}}{\omega_{3-1}+\omega_1-\omega_3} 
-	-\frac{V^*_{232-3}V_{414-1}}{\omega_{4-1}+\omega_1-\omega_4}-\frac{V^*_{141-4}V_{323-2}}{\omega_{3-2}+\omega_2-\omega_3} 
-\end{align} 
+\begin{equation}
+	\begin{split}
+		T_{1234} = W_{1234} &-\frac{U_{-1-212}U_{-3-434}}{\omega_3+\omega_4+\omega_{3+4}} + \frac{V^*_{1+212}V_{3+434}}{\omega_1+\omega_2-\omega_{1+2}} 	-\frac{V^*_{131-3}V_{424-2}}{\omega_{4-2}+\omega_2-\omega_4} \\ 
+		&- \frac{V^*_{242-4}V_{313-1}}{\omega_{3-1}+\omega_1-\omega_3} 
+		-\frac{V^*_{232-3}V_{414-1}}{\omega_{4-1}+\omega_1-\omega_4}-\frac{V^*_{141-4}V_{323-2}}{\omega_{3-2}+\omega_2-\omega_3} 
+	\end{split}
+\end{equation} 
 
 Notemos que si efectivamente la condición resonante para tres ondas no puede cumplirse (con una relación de dispersión de no decaimiento), entonces los denominadores de $T_{1234}$ no divergen y efectivamente se puede eliminar $\mathcal{H}_3$ del Hamiltoniano de interacción $\mathcal{H}_{int}$.
 
@@ -327,6 +335,61 @@ Los distintos términos de $T_{1234}$ se pueden interpretar gráficamente:
 
 
 Donde se pueden pensar como un segundo orden de perturbación a un proceso de tres ondas, donde aparece una fuerza virtual que no conserva energía y momento. 
+
+
+
+\section{Correspondencia con fluidos con superficie libre.}
+Hasta ahora hemos dado un visión general del modelado de un sistema continuo no lineal mediante la teoría de perturbaciones, aplicable a una gran cantidad de sistemas físicos. En particular nos va a interesar mostrar que un fluido con superficie libre que se extiende infinitamente y con profundidad finita se puede describir de esta forma.
+
+Vamos a pensar en un fluido irrotacional e incompresible, de esta forma $\vec u = \vec \nabla \phi$, con $\phi$ el potencial de velocidad. Éste satisface la Ecuación de Laplace.
+
+\begin{equation}
+	\nabla^2\phi = 0 \qquad -h<z<\eta
+\end{equation}
+
+Donde $-h$ es la posición del fondo y $z=\eta(\vec x)$ es la altura de la superficie libre. Vamos a tener además la condición de contorno en el fondo:
+
+\begin{equation}
+	\partial_z\phi=0 \qquad z=-h
+\end{equation}
+
+Y las condiciones de contorno cinemática (que sale por continuidad de la velocidad) y dinámica (que sale de Bernoulli por continuidad de presión) respectivamente:
+
+\begin{equation}
+	\frac{D\eta}{Dt} = \partial_t \phi + \vec \nabla \phi \cdot \vec \nabla \eta = \partial_z \phi	 \qquad  \partial_t \phi + \frac{1}{2} |\vec \nabla \phi|^2 + g\eta = 0
+\end{equation}
+
+Que tendrá solución única dadas la altura de la superficie libre $\eta(\vec x,t)$ y el potencial en la superficie libre $\phi^s=\phi(\vec x, z=\eta(\vec x, t), t)$, que permiten obtener el potencial para todo $z, t$. \cite{meiTheoryApplicationsOcean2016}
+
+Definimos:
+
+\begin{equation}
+	w^s = \left(\frac{\partial\phi}{\partial x}\right)_eta
+\end{equation} 
+
+Y transformamos todo a Fourier. La ecuación de Laplace queda:
+
+\begin{equation}
+	\frac{\partial^2\phi_k}{\partial z^2} + k^2 \phi_k = 0
+\end{equation}
+
+Que podemos resolver por separación de la variable $z$ para que satisfaga la condición de contorno en el fondo:
+
+\begin{equation}
+	\phi(\vec k, z, t) = \Phi(\vec k, t) \cosh(k(z+h))
+\end{equation}
+
+Luego podemos obtener $\phi^s(\vec x, t)$ al antitransformar. Por otro lado si derivamos y antitransformamos podemos obtener $w^s(\vec x, t)$.
+
+Ahora debemos tomar la aproximación de que la pendiente de la ola (\textit{steepness}) es muy baja, i.e. $k\eta\ll1$. Entonces expandimos $\phi^s$ y $w^s$ en términos del parámetro $k\eta$. Volvemos a transformar y expresamos $\eta$ en términos de su transformada $\eta_k$ para obtener $\phi^s_k$ y $w^s_k$. Por último invertimos las expresiones iterativamente para hallar $\Phi_k$. 
+
+Finalmente podemos definir:
+\begin{equation}
+	b_k = \left(\frac{g}{2\omega}\right)^{1/2} \eta_k + i \left(\frac{\omega}{2g}\right)^{1/2}\phi^s_k
+\end{equation}
+
+Y queda una ecuación de movimiento para la evolución de $b_k$ análoga a las que habíamos encontrado en el caso general. Para los \textit{kernels} de interacción para procesos de tres y cuatro ondas se puede ver el Apéndice de \cite{meiTheoryApplicationsOcean2016}.
+
 
 \section{Paso a la estadística y la Ecuación Cinética.}
 La idea ahora va a ser pasar de la descripción dinámica del sistema a una estadística en función de las funciones de correlación de las amplitudes de ondas.
@@ -367,23 +430,33 @@ Las ecuaciones de movimiento anteriores son para la evolución temporal de las a
 
 Vamos a asumir una "caotización" de las fases, de forma tal que aunque al inicio estuvieran correlacionadas, luego de un tiempo ya no lo estarán. Podemos pensar que esto se debe a la dispersión del medio o a que inicialmente están en un equilibrio muy inestable del cual los saca cualquier perturbación del medio. De esta forma, bajo la aproximación de fases aleatorias tenemos las correlaciones:
 
-\begin{align}
-	\langle c_{\vec k}\rangle &= \langle |c_{\vec k}|e^{i\phi_{\vec k}}	 \rangle = 0 \\
-	\langle c_{\vec k} c_{\pvec k'} \rangle &= \langle |c_{\vec k}||c_{\pvec k'} e^{i(\phi_{\vec k}+\phi_{\pvec k'})}| = 0 \\
-	\langle c_{\vec k} c^*_{\pvec k'} \rangle  &= \langle |c_{\vec k}||c_{\pvec k'} e^{i(\phi_{\vec k}-\phi_{\pvec k'})}| = n(\vec k) \delta(\vec k - \pvec k')
-\end{align} 
+\begin{equation}
+	\begin{split}
+		\langle c_{\vec k}\rangle &= \langle |c_{\vec k}|e^{i\phi_{\vec k}}	 \rangle = 0 \\
+		\langle c_{\vec k} c_{\pvec k'} \rangle &= \langle |c_{\vec k}||c_{\pvec k'} e^{i(\phi_{\vec k}+\phi_{\pvec k'})}| = 0 \\
+		\langle c_{\vec k} c^*_{\pvec k'} \rangle  &= \langle |c_{\vec k}||c_{\pvec k'} e^{i(\phi_{\vec k}-\phi_{\pvec k'})}| = n(\vec k) \delta(\vec k - \pvec k')
+	\end{split}
+\end{equation} 
 
 Acá definimos la acción de onda $n(\vec k) = c_{\vec k}c^*_{\vec k}$, que sería la densidad de "partículas" con número de onda $\vec k$ en la integral \eqref{eq:Wave_action_integral}.  
 
 Por último para los correlatorres de una cantidad impar siempre van a dar 0, y para los de orden 4 y 6 tenemos:
 
-\begin{align}
-	\langle	c_1^*c_2^*c_3c_4 \rangle & = n_1 n_2 \big[\delta_{1-3}\delta_{2-4} + \delta_{1-4}\delta_{2-3}\big] \\ 
-	\langle c_1^*c_2^*c_3^*c_4c_5c_6 \rangle &= n_1n_2n_3\big[  \delta_{1-4}\delta_{2-5}\delta_{3-6} + \delta_{1-4}\delta_{2-6}\delta_{3-5} + \delta_{1-5}\delta_{2-4}\delta_{3-6} \\ 
-	& +\delta_{1-5}\delta_{2-6}\delta_{3-4} + \delta_{1-6}\delta_{2-4}\delta_{3-5} + \delta_{1-6}\delta_{2-5}\delta_{3-6} \big] 
-\end{align}
+\begin{equation}
+	\begin{split}
+		\langle	c_1^*c_2^*c_3c_4 \rangle & = n_1 n_2 \big[\delta_{1-3}\delta_{2-4} + \delta_{1-4}\delta_{2-3}\big] \\ 
+		\langle c_1^*c_2^*c_3^*c_4c_5c_6 \rangle &= n_1n_2n_3\big[  \delta_{1-4}\delta_{2-5}\delta_{3-6} + \delta_{1-4}\delta_{2-6}\delta_{3-5} + \delta_{1-5}\delta_{2-4}\delta_{3-6} \\ 
+		& +\delta_{1-5}\delta_{2-6}\delta_{3-4} + \delta_{1-6}\delta_{2-4}\delta_{3-5} + \delta_{1-6}\delta_{2-5}\delta_{3-6} \big] 
+	\end{split}
+\end{equation}
 
-Que básicamente las deltas dan que queden dos o tres  $n$'s.
+Que básicamente las deltas dan que queden dos o tres  $n$'s. Acá es donde producimos la clausura de la jerarquía, al escribir el cuarto momento como un producto de dos segundos momentos (o tres para el sexto). En parte esta aproximación se puede hacer porque las estadísticas son cercanas a la Gaussiana para turbulencia de ondas débil que es esto. \cite{falkovichTurbulence2006} 
+
+\subsection*{Clausura Gaussiana.}
+Ya hemos estado asumiendo que el comportamiento estadístico de la turbulencia de ondas débil es cercano al Gaussiano en el tiempo largo, siendo insensible a las condiciones iniciales. \cite{falconLaboratoryExperimentsWave2010} 
+
+Esta propiedad, a la cual nos referimos como clausura Gaussiana ya que nos permite expresar momentos superiores en función del segundo momento y escribir de esta forma una expresión cerrada para la ecuación cinética, viene de una de una aplicación del Teorema Central del Límite. \cite{hasselmannNonlinearEnergyTransfer1962} 
+
 
 \subsection*{Ecuación cinética de tres ondas.}
 Para obtener la ecuación de evolución para $n_{\vec k}$ hay que multiplicar \eqref{eq:motion_equation_three_waves} por $c^*_{\vec k}$y restarle la conjugada por $c_{\pvec k'}$, para finalmente tomar el promedio y reemplazar $\vec k=\pvec k'$:
@@ -395,7 +468,10 @@ Para obtener la ecuación de evolución para $n_{\vec k}$ hay que multiplicar \e
 Ahora bien $\langle c_1^+c_2c_3 \rangle = 0$ a orden 0. Debemos entonces ir a un orden más en la teoría perturbativa para calcular el correlator de tres puntos. Esto lo hacemos usando la ecuación \eqref{eq:motion_equation_three_waves} por otras dos amplitudes y sumando:
 
 \begin{equation}
-	\left[i\frac{\partial}{\partial t} + (\omega_1-\omega_2-\omega_3)\right] \langle c_1^*c_2c_3 \rangle = \int \left[-\frac{1}{2}V_{145}^*\langle c_4^*c_5c_2c_3 \rangle \delta(\vec k_1 - \vec k_4 -\vec k_5) + V_{425}^*\langle c_1^*c_5c_3c_4 \rangle \delta(\vec k_4 - \vec k_2 -\vec k_5) + V_{435}^*\langle c_1^*c_5c_2c_4 \rangle \delta(\vec k_4 - \vec k_3 -\vec k_5)\right] d\vec k_4 d\vec k_5
+	\begin{split}
+		\left[i\frac{\partial}{\partial t} + (\omega_1-\omega_2-\omega_3)\right] \langle c_1^*c_2c_3 \rangle &= \int \bigg[-\frac{1}{2}V_{145}^*\langle c_4^*c_5c_2c_3 \rangle \delta(\vec k_1 - \vec k_4 -\vec k_5) + V_{425}^*\langle c_1^*c_5c_3c_4 \rangle \delta(\vec k_4 - \vec k_2 -\vec k_5) \\ 
+		&+  V_{435}^*\langle c_1^*c_5c_2c_4 \rangle \delta(\vec k_4 - \vec k_3 -\vec k_5)\bigg] d\vec k_4 d\vec k_5
+	\end{split}
 \end{equation}
 
 Ahora usamos la expresión a primer orden del correlator de cuatro puntos de antes y llegamos a que:
@@ -415,31 +491,78 @@ Se coloca $+i\delta$ para evitar el polo, que vamos a atravesar ya que se da en 
 
 Reemplazando este resultado en la ecuación cinética obtenemos:
 
-\begin{align}
-	\frac{\partial n_{\vec k}}{\partial t} &= \pi \int\big[|V_{k12}|^2f_{k12}\delta(\vec k - \vec k_1 - \vec k_2) \delta(\omega - \omega_1 - \omega_2) + 2 |V_{1k2}|^2 f_{1k2} \delta(\vec k_1 - \vec k - \vec k_2) \delta(\omega_1 - \omega - \omega_2) \big]  \\ 
-	f_{123} &= n_1n_2n_3\left(\frac{1}{n_1} - \frac{1}{n_2} -  \frac{1}{n_3}\right)
-\end{align}
+\begin{equation}
+	\begin{split}
+		\frac{\partial n_{\vec k}}{\partial t} &= \pi \int\big[|V_{k12}|^2f_{k12}\delta(\vec k - \vec k_1 - \vec k_2) \delta(\omega - \omega_1 - \omega_2) + 2 |V_{1k2}|^2 f_{1k2} \delta(\vec k_1 - \vec k - \vec k_2) \delta(\omega_1 - \omega - \omega_2) \big]  \\ 
+		f_{123} &= n_1n_2n_3\left(\frac{1}{n_1} - \frac{1}{n_2} -  \frac{1}{n_3}\right)
+	\end{split}
+\end{equation}
 
 
 \subsection*{Ecuación cinética de cuatro ondas.}
 Seguimos un procedimiento análogo al anterior, nuevamente va a dar a primer orden 0, con lo cual hay que ir a un orden más alto y ahora usar el correlator de seis puntos. Finalmente queda:
 
-\begin{align}
-	\frac{\partial n_{\vec k}}{\partial t} &= \frac{\pi}{2} \int |T_{k123}|^2 f_{k123} \delta(\vec k + \vec k_1 - \vec k_2 -\vec k_3) \delta(\omega + \omega_1 -\omega_2 - \omega_3) d\vec k_1 d\vec k_2 d\vec k_3 \\
-	f_{1234} &= n_1n_2n_3n_4\left(\frac{1}{n_1} + \frac{1}{n_2} - \frac{1}{n_3} - \frac{1}{n_4} \right)
-\end{align}
+\begin{equation}
+	\begin{split}
+		\frac{\partial n_{\vec k}}{\partial t} &= \frac{\pi}{2} \int |T_{k123}|^2 f_{k123} \delta(\vec k + \vec k_1 - \vec k_2 -\vec k_3) \delta(\omega + \omega_1 -\omega_2 - \omega_3) d\vec k_1 d\vec k_2 d\vec k_3 \\
+		f_{1234} &= n_1n_2n_3n_4\left(\frac{1}{n_1} + \frac{1}{n_2} - \frac{1}{n_3} - \frac{1}{n_4} \right)
+	\end{split}
+\end{equation}
 
 
+\section{Modificaciones a la Ecuación Cinética.}
+Se pueden agregar términos de disipación y forzado en la ecuación cinética, mediante una modificación de la ecuación de Hamilton \cite{falkovichTurbulence2006, falconLaboratoryExperimentsWave2010}:
+
+\begin{equation}
+	\frac{\partial a_k}{\partial t} = -i\frac{\delta \mathcal{H}}{\delta a_k^*} + f_k(t) - \gamma_{k}a_k
+\end{equation}
+
+Donde el primer término dará cuenta de la propagación e interacción de ondas, el segundo del forzado y el tercero de la disipación. Si asumimos que tenemos una fuerza aleatoria, que sea homogénea e isótropa en el espacio y blanca en el tiempo entonces,
+
+\begin{equation}
+	\langle f_k(t)f_{k'}(t') \rangle = F(k) \delta(\vec k+ \pvec k')\delta(t'-t)
+\end{equation}
+
+Con $F(k)\neq 0$ en el entorno de $k_f$ donde se produce la inyección de energía. Además asumimos $\gamma_k\ll\omega_k$.  El tiempo de disipación se puede estimar como $\tau_{diss}\sim 1/\gamma_k $, que será importante cuando sea del orden de los tiempos no lineales $\tau_{nl}\sim \tau_{diss}$. Para el caso de superficie libre de un fluido tenemos $\gamma_k = 2\nu k^2$. \cite{deikeEtudesExperimentalesNumeriques2013}
+
+La ecuación cinética queda:
+
+\begin{equation}
+	\frac{\partial n_k}{\partial t} = F_k - \gamma_k n_k + I_k^3  
+\end{equation}
+
+Donde $I^3_k$ es la integral de colisiones para tres ondas en este caso, pero podría ser $I_k^4$ para otro sistema. En \cite{falconLaboratoryExperimentsWave2010} la escriben con una notación alternativa:
+
+\begin{equation}
+	\frac{\partial n_{\vec k}}{\partial t} = C_{\vec k} - D_{\vec k} + I_{\vec k}
+\end{equation}
+
+Donde $C_{\vec k}$ es la integral de interacciones entre ondas, $D_{\vec k}$ el \textit{damping} y $I_{\vec k}$ la \textit{inyección} de energía.
+
+El caso en que $D_k=I_k=0$ corresponde con el equilibrio termodinámico, o la solución de Rayleigh-Jeans, y está asociada a una equipartición de energía entre todos los modos.
 
 
+\section*{Balance de energía}
+Vamos a tener en el rango inercial (siempre que la escala de inyección y disipación estén lo suficientemente separadas) la conservación del flujo de "partículas" (conservación de E dada por la presencia de las deltas en las integrales de colisiones $I_k^N$) dada por:
 
+\begin{equation}
+	\varepsilon \equiv \frac{\partial }{\partial t} \int n_{\vec k} \omega d\vec k 
+\end{equation}
 
-\section{Correspondencia con fluidos con superficie libre.}
+O bien:
 
+\begin{equation}
+	\frac{\partial E(k)}{\partial t} + \frac{\partial \varepsilon}{\partial k} = 0
+	\label{eq:energy_balance}
+\end{equation}
 
+Notamos que ecuaciones estacionarias de la ecuacion cinética ($\partial_tn_k = 0$) implican que las integrales de colisiones son 0, y se corrseponden con un flujo constante de energía $\varepsilon$ entre escalas. Para la relación de dispersión $\omega\sim k^{alpha}$ son los espectros de KZF, análogos a la Ley de -5/3 (c.f. \eqref{eq:Kolmogorov_5_3}) de Kolmogorov para turbulencia normal.
 
-\section{Turbulencia de Ondas Discreta}
+Para el caso en que se conserva la integral de acción de onda $N=\int n_k dk$ vamos a definir el flujo de \textit{wave action} como:
 
+\begin{equation}
+	\frac{\partial n_k}{\partial t} + \frac{\partial \zeta}{\partial k} = 0
+\end{equation}
 
 
 \section{Espectro de energía y PSD.}
@@ -505,14 +628,6 @@ Una cosa interesante es que si escribimos explícitamente $S_\eta(k) \propto k|\
 Que sería la energía cinética efectivamente.
 
 
-
-
-
-
-
-
-
-
 \section{Espectro de Kolmogorov-Zakharov-Filonenko.}
 Experimentalmente es posible observar que el espectro de energía para la elevación de la superficie libre en un determinado rengo de números de ondas (de equilibrio) resulta $E_\omega  \sim A\omega^s$. En este rango la mayor contribución a la dinámica se debe a los efectos no lineales, ya que los viscosos son menores. Es posible calcular los exponentes de forma analítica a partir de las ecuaciones para la superficie libre \cite{zakharovEnergySpectrumStochastic1967}
 
@@ -555,6 +670,20 @@ Acá la relación de dispersión es:
 \end{equation}
 
 
+\subsection*{Deducción dimensional.}
+Para que sea única dijimos que hay que asumir cómo escala el espectro de energía respecto a la cantidad de ondas interactuantes. Esto surge del balance de energía \eqref{eq:energy_balance}:
+
+\begin{equation}
+	\varepsilon \sim \frac{\partial E_k}{\partial t} dk \sim \omega \frac{\partial n_k}{\partial t} dk \sim I_k^N \sim n_k^{N-1}
+\end{equation}
+
+Por la ecuación cinética. Por lo tanto: \cite{deikeEtudesExperimentalesNumeriques2013}
+
+\begin{equation}
+	E_k \sim n_k \sim \varepsilon^{1/(N-1)}
+\end{equation}
+
+
 
 \section{Doble cascada para $N$ par} % a sub 
 A partir de los resultados para los espectros KZF se puede ver que existe una cascada directa de energía, sin embargo, para el caso en que las interacciones se dan entre un número par de ondas, tenemos otro invariante además de la energía, que es la \textit{wave action}, que tendrá una cascada inversa. \cite{nazarenkoWaveTurbulence2011}
@@ -566,6 +695,29 @@ Para el caso de ondas de gravedad, con interacciones de 4 ondas, tenemos el espe
 \end{equation}
 
 Con $\zeta$ el flujo de \textit{wave action} (ratio de disipación)
+
+
+
+\section{Turbulencia de Ondas Discreta}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %Estos son los antecedentes Teóricos. Más antecedentes.
 %
