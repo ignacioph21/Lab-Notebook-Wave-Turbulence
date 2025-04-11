@@ -56,18 +56,18 @@ Esto es fundamental, ya que las transformaciones canónicas, que preservan la fo
 La derivada temporal de una función (con una posible dependencia explícita en $t$) será:
 
 \begin{equation}
-	\frac{df(q,p,t)}{dt} = {H, f} + \frac{\partial f}{\partial t}
+	\frac{df(q,p,t)}{dt} = \{H, f\} + \frac{\partial f}{\partial t}
 \end{equation}
 
-En general no hay dependencias explícitas, con lo cual tenemos que si ${H, f}=0$ entonces la cantidad $f$ es constante de movimiento.
+En general no hay dependencias explícitas, con lo cual tenemos que si $\{H, f\}=0$ entonces la cantidad $f$ es constante de movimiento.
 
 
 
 \subsection*{Pasar a variables complejas.}
-Ahora bien, se puede mostrar la siguiente transformación es canónica (a menos de un factor multiplicativo):
+Ahora bien, se puede mostrar que la siguiente transformación es canónica (a menos de un factor multiplicativo):
 
 \begin{equation}
-	a(\vec r,t)=\frac{1}{\sqrt{2}}(Q(\vec r,t)+iP(\vec r,t)) \qquad a^*(\vec r,t)=\frac{1}{\sqrt{2}}(Q(\vec r,t)-iP(\vec r,t))
+	a(\vec r,t)=\frac{1}{\sqrt{2}}\big(Q(\vec r,t)+iP(\vec r,t)\big) \qquad a^*(\vec r,t)=\frac{1}{\sqrt{2}}\big(Q(\vec r,t)-iP(\vec r,t)\big)
 \end{equation}
 
 Con $Q=\lambda q$ y $P=p / \lambda$ tales que $Q$ y $P$ tengan las mismas unidades. La ventaja de pasar a las variables complejas es que se reduce de las dos ecuaciones \eqref{eq:Hamilton_continuum} a una sola (la segunda es la conjugada de la primera):
@@ -85,7 +85,7 @@ Con los corchetes en las coordenadas originales\footnote{A veces, parece que en 
 Estas variables complejas son análogas a los operadores de subida y bajada en cuántica. 
 
 \subsection*{Las cantidades conservadas}
-En un primer lugar tendremos la conservación de la energía total (siempre que trabajemos con el modelo más sencillo), pero en el caso que el Hamiltoniano tenga simetría $U(1)$ en las variables $a$, habrá otra ley de conservación asociada $N=|a|^2$, que es análogo al número de partículas en el caso cuántico. Ya desarrollaremos esto más adelante. 
+En un primer lugar tendremos la conservación de la energía total (siempre que trabajemos con el modelo más sencillo), pero en el caso que el Hamiltoniano tenga simetría $U(1)$ en las variables $a$, habrá otra ley de conservación asociada, $N=|a|^2$, que es análogo al número de partículas en el caso cuántico. Ya desarrollaremos esto más adelante. 
 
 \subsection*{Paso al espacio de Fourier.}
 Vamos a imaginar que estamos en una caja de largo $L$ con condiciones de contorno periódicas, que eventualmente podemos hacer tender a infinito, y vamos a expresar a la variable $a(\vec r)$ como una combinación de las variables $a_{\vec k} \equiv a(\vec k)$ tal que:
@@ -97,7 +97,7 @@ Vamos a imaginar que estamos en una caja de largo $L$ con condiciones de contorn
 Es posible mostrar usando los corchetes para la variable $a$ en el espacio real que las nuevas variables en el espacio de momento $a_{\vec k}$ satisfacen los mismos corchetes de Poisson, a menos de un factor de volumen. Entonces las ecuaciones de movimiento mantienen su forma:
 
 \begin{equation}
-	i\frac{\partial a_{\vec k}}{\partial t} = \frac{\delta \mathcal{H}}{\delta a^*}
+	i\frac{\partial a_{\vec k}}{\partial t} = \frac{\delta \mathcal{H}}{\delta a_{\vec k}^*}
 \end{equation}
 
 \section{Desarrollo perturbativo del Hamiltoniano.}
@@ -107,9 +107,10 @@ Nos va a interesar escribir el Hamiltoniano como una serie de potencias de $a$ y
 	\mathcal{H} = \mathcal{H}_2 + \mathcal{H}_3 + \mathcal{H}_4 + \cdots \equiv \mathcal{H}_2 + \mathcal{H}_{int}
 \end{equation}
 
+Donde $\mathcal{H}_{int}$ representa las interacciones entre ondas. 
 \subsection*{El orden más bajo.}
 
-Donde $\mathcal{H}_{int}$ representa las interacciones entre ondas. Se puede mostrar que existe una transformación canónica a unas variables $b_{\vec{k}},b_{\vec{k}^*}$ tales que:
+Se puede mostrar que existe una transformación canónica a unas nuevas variables $b_{\vec{k}},b_{\vec{k}^*}$ tales que \cite{zakharovKolmogorovSpectraTurbulence1992}:
 
 \begin{equation}
 	\mathcal{H}_2 = \int \omega(\vec k)b_{\vec k}b^*_{\vec k}
@@ -121,10 +122,142 @@ De forma tal que a primer orden no nulo la ecuación de movimiento resulta trivi
 	\frac{\partial b_{\vec{k}}}{\partial t}=-i\omega b_{\vec{k}} \qquad \Rightarrow{} \qquad b_{\vec{k}}=b(\vec k, 0)e^{-i\omega t}
 \end{equation}
 
+En este punto la única diferencia entre distintos medios radica en la relación de dispersión $\omega(\vec k)$.
+
 \subsection*{El Hamiltoniano de interacción.}
+Los términos de orden superior se pueden interpretar como términos de interacción entre ondas, en analogía a lo que ocurre en mecánica cuántica. Vamos a usar la notación reducida: $b_{\vec k_1} \equiv b_1$.
+
+Para las interacciones de tres ondas tenemos:
+
+\begin{align}
+	\mathcal{H}_3 &= \frac{1}{2}\int\big(V_{123}b^*_1b_2b_3+\text{c.c.}\big)\delta(\vec k_1-\vec k_2 -\vec k_3) d\vec k_1d\vec k_2d\vec k_3 \\ &+ \frac{1}{6} \int\big(U_{123}b^*_1b^*_2b^*_3+\text{c.c.}\big)\delta(\vec k_1 + \vec k_2 + \vec k_3) d\vec k_1d\vec k_2d\vec k_3
+\end{align} 
+
+Donde tenemos unos coeficientes $V_{123}$ y $U_{123}$ que nos hablan de la magnitud de la interacción. El primer término describe procesos de la forma $1\rightarrow2$ y  $2\rightarrow1$, mientras que el segundo describe procesos del tipo $3\rightarrow0$ y $0\rightarrow3$, que son aniquilaciones de tres ondas hacia el vacío o creación espontánea de tres ondas por fluctuaciones. % 
+
+Por otro lado, para las interacciones de cuatro ondas tenemos:
+
+\begin{align}
+	\mathcal{H}_4 &= \frac{1}{4} \int W_{1234}b1^*b_2^*b_3b_4\delta(\vec k_1+\vec k_2-\vec k_3-\vec k_4) d\vec k_1d\vec k_2d\vec k_3d\vec k_4 \\
+	&+\int \big(G_{1234}b_1b_2^*b_3^*b_4^* + \text{c.c.}\big) \delta(\vec k_1-\vec k_2-\vec k_3-\vec k_4) d\vec k_1d\vec k_2d\vec k_3d\vec k_4 \\
+	&+\int \big(R^*_{1234}b_1b_2b_3b_4 + \text{c.c.}\big) \delta(\vec k_1+\vec k_2+\vec k_3+\vec k_4) d\vec k_1d\vec k_2d\vec k_3d\vec k_4
+\end{align}
+
+Donde ahora tenemos procesos del tipo $2\rightarrow2$ para el primer término, $1\rightarrow3$ y $3\rightarrow1$ para el segundo, $4\rightarrow0$ y $0\rightarrow4$ para el tercero.
+ 
+Los coeficientes de interacción van a tener las simetrías asociadas a la interacción, o sea, se van a poder intercambiar los índices asociados a "partículas" de cada lado de la flecha, por ejemplo, $V_{123}=V_{132}$.
+
+Notemos además que si hay presentes términos con una cantidad distinta de "partículas" de un lado que del otro entonces no habrá simetría $U(1)$ y no se conservará la cantidad de partículas asociadas a ese proceso. 
+
+
+\subsection*{Interacciones Resonantes de $N$ ondas} % 
+En general vamos a poder tener interacciones de tanta cantidad de ondas como querramos, a medida que aumentemos el orden del Hamiltoniano de interacción. Éstas son integrales de colisiones como las de la Ecuación de Boltzmann.
+
+Ahora bien, en general va a ser suficiente con llegar al primer término no nulo, tal que se satisfagan la conservación de lo que en cuántica serían el momento y la energía: 
+
+\begin{equation}
+	\vec k_1 \pm \vec k_2 \pm \cdots \pm \vec k_N = 0 \qquad \omega(\vec k_1) \pm \omega(\vec k_2) \pm \cdots \pm \omega(\vec k_N) = 0
+	\label{eq:condición_resonancia}
+\end{equation}
+
+Los signos corresponderán a si la "partícula" ingresa o sale. 
+
+Si no se satisface la segunda condición de resonancia entonces el término correspondiente del Hamiltoniano puede eliminarse mediante transformaciones canónicas apropiadas, como se verá más adelante \cite{zakharovKolmogorovSpectraTurbulence1992}.
+
+Para el caso en que tenemos una relación de dispersión del tipo $\omega\sim k^{\alpha}$ la condición de resonancia de tres ondas no será posible en los casos en que $\alpha<1$, con lo cual el primer término resonante será el de cuatro ondas, para el cual siempre hay solución en el caso de $\omega\sim k^{\alpha}$. La demostración se puede entender gráficamente, si dibujamos las superficies en 2D para $\omega(\vec k, \vec k_0)$ y $\omega(\vec k) + \omega(\vec k_0)$, donde $\vec k_0$ es un parámetro que puede variarse. Si las curvas se intersecan hay solución, sino solo existe la solución trivial en que ambas curvas son iguales, para el caso en que una de las ondas es 0. Esto está ilustrado en la Figura \ref{fig:solución_condición_resonante}. % STO 
+
+\begin{figure}[!ht]
+	\begin{minipage}[c]{0.5\textwidth}
+		\begin{subfigure}{\textwidth}
+			\centering
+			\includegraphics[width=0.678\textwidth]{Figures/Antecedentes_teoricos/Resonancia_alpha_mayor}
+			\captionsetup{width=0.8\textwidth}
+			\subcaption{}
+		\end{subfigure}
+	\end{minipage}\begin{minipage}[c]{0.49\textwidth}
+		\begin{subfigure}{\textwidth}
+			\centering
+			\includegraphics[width=0.76878\textwidth]{Figures/Antecedentes_teoricos/Resonancia_alpha_menor1}
+			\captionsetup{width=0.8\textwidth}
+			\subcaption{}
+		\end{subfigure}
+	\end{minipage}
+	\caption{Soluciones gráficas para la condición resonante para dos casos distintos de la relación de dispersión $\omega\sim k^{\alpha}$.}
+	\label{fig:solución_condición_resonante}
+\end{figure}
+
+Para las ondas de gravedad $\alpha=1/2$ con lo cual las interacciones resonantes de 3 ondas no están permitidas (sino serían ondas con energía negativa).
+
+\section{Eliminación de los términos no resonantes.}
+Vamos a querer mostrar que efectivamente en el caso de que un término sea no resonante, o sea, que no cumple la condición \eqref{eq:condición_resonancia}, existirá una transformación canónica a nuevas variables $c_{\vec k}, c_{\vec k}^*$ en las cuales ese término no aparece en el Hamiltoniano de interacción. 
+
+A modo ilustrativo \cite{zakharovKolmogorovSpectraTurbulence1992} plantea para una sola variable el Hamiltoniano hasta orden cuatro:
+
+\begin{equation}
+	\mathcal{H} = \omega bb^*+\frac{V}{2}(b^2b^*+{b^*}^2) + \frac{U}{6}(b^3+{b^*}^3) + \frac{W}{4}(b^2{b^*}^2) + G(b^3b^*+b{b^*}^3) + R (b^4+{b^*}^4)
+\end{equation}
+
+Y pide que la nueva variable sea de la forma (desarrollo perturbativo en $b$):
+
+\begin{equation}
+	b = c + A_1c^2+A_2cc^*+A_3{c^*}^2 + B_1c^3+B_2c^*c^2+B_3c{c^*}^2+B_4{c^*}^3+\cdots
+\end{equation}
+
+Luego pide que $\{b,b^*\}_{c,c^*}=1$ para que la transformación sea efectivamente canónica y resuelve para los coeficientes $A_i$ y $B_i$ pidiendo que todos los términos no lineales del Hamiltoniano excepto $c^2{c^*}^2$ sean 0. Entonces llega a que:
+
+\begin{equation}
+	\mathcal{H} = \omega cc^* + \frac{1}{4} Tc^2{c^*}^2 \qquad T=W-\frac{3V^2}{\omega}-\frac{U^2}{3\omega}
+\end{equation}
+
+O sea, que siempre y cuando $\omega \neq 0$ se pueden eliminar los términos no resonantes del Hamiltoniano. 
+
+Es posible hacer exactamente lo mismo para el caso en que no hay triadas resonantes, quedando: 
+
+\begin{equation}
+	\mathcal{H} = \frac{1}{4} \int T_{1234} c_1^*c_2^*c_3c_4\delta(\vec k_1+\vec k_2 - \vec k_3 - \vec k_4) d\vec k_1d\vec k_2 d\vec k_3 d\vec k_4
+\end{equation}
+
+Donde el coeficiente de interacción resulta:
+
+\begin{align}
+	T_{1234} = W_{1234} &-\frac{U_{-1-212}U_{-3-434}}{\omega_3+\omega_4+\omega_{3+4}} + \frac{V^*_{1+212}V_{3+434}}{\omega_1+\omega_2-\omega_{1+2}} 	-\frac{V^*_{131-3}V_{424-2}}{\omega_{4-2}+\omega_2-\omega_4} \\ 
+	&- \frac{V^*_{242-4}V_{313-1}}{\omega_{3-1}+\omega_1-\omega_3} 
+	-\frac{V^*_{232-3}V_{414-1}}{\omega_{4-1}+\omega_1-\omega_4}-\frac{V^*_{141-4}V_{323-2}}{\omega_{3-2}+\omega_2-\omega_3} 
+\end{align} 
+
+Notemos que si efectivamente la condición resonante para tres ondas no puede cumplirse (con una relación de dispersión de no decaimiento), entonces los denominadores de $T_{1234}$ no divergen y efectivamente se puede eliminar $\mathcal{H}_3$ del Hamiltoniano de interacción $\mathcal{H}_{int}$.
+
+En general la prohibición de interacciones del tipo $2\rightarrow1$ y $1\rightarrow2$ implican la prohibición de los términos $1\rightarrow3$ y $3\rightarrow1$. Igualmente se eliminan los términos $4\rightarrow0$ y $0\rightarrow4$ del Hamiltoniano, resultando en su versión más simplificada.
+
+
+Notemos que al interactuar la mitad de las ondas de cada lado ($N/2\rightarrow N/2$) se conserva la cantidad de partículas, asociado a la simetría $U(1)$ que mencionamos antes:
+
+\begin{equation}
+	N = \int c^*_{\vec k}c_{\vec k} d\vec k
+\end{equation}
+
+Que es lo que se conoce como la integral de \textit{Wave action}.
+
+
+Los distintos términos de $T_{1234}$ se pueden interpretar gráficamente:
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Figures/Antecedentes_teoricos/Procesos_de_4_ondas}
+	\caption{Distintos procesos de cuatro ondas como segundo orden perturbativo a proceso de tres ondas, donde la tercera es virtual y conecta ambos extremos. } % ec
+	\label{fig:procesosde4ondas}
+\end{figure}
+
+
+Donde se pueden pensar como un segundo orden de perturbación a un proceso de tres ondas, donde aparece una fuerza virtual que no conserva energía y momento. 
+
+\section{Paso a la estadística y la Ecuación Cinética.}
 
 
 
+
+
+\section{Correspondencia con fluidos con superficie libre.}
 
 
 
@@ -191,7 +324,6 @@ Una cosa interesante es que si escribimos explícitamente $S_\eta(k) \propto k|\
 Que sería la energía cinética efectivamente.
 
 
-\section{Interacciones Resonantes de $N$ ondas} % 
 
 
 
@@ -243,7 +375,7 @@ Acá la relación de dispersión es:
 
 
 
-\subsection{Doble cascada para $N$ par} % a 
+\section{Doble cascada para $N$ par} % a sub 
 A partir de los resultados para los espectros KZF se puede ver que existe una cascada directa de energía, sin embargo, para el caso en que las interacciones se dan entre un número par de ondas, tenemos otro invariante además de la energía, que es la \textit{wave action}, que tendrá una cascada inversa. \cite{nazarenkoWaveTurbulence2011}
 
 Para el caso de ondas de gravedad, con interacciones de 4 ondas, tenemos el espectro:
