@@ -1,6 +1,82 @@
 \entry{Antecedentes Teóricos}
 
 
+\section{Introducción General.}
+\subsection*{Turbulencia}
+La turbulencia es un estado de un sistema físico no lineal fuera del equilibrio que cuenta con una distribución de energía sobre muchos grados de libertad. Puede mantenerse mediante un forzado, que inyecta energía, o decaer hasta el equilibrio. \cite{falkovichTurbulence2006}
+
+Esto ocurre para números de Reynold suficientemente grandes:
+
+\begin{equation}
+	\text{Re} \equiv \frac{UL}{\nu}
+\end{equation}
+
+Las perturbaciones producidas para una escala L tienen un bajo efecto disipativo a causa de la viscosidad respecto de los efectos no lineales, que serán los dominantes. Estas no linealidades inducen movimiento en escalas cada vez más chicas, hasta llegar a la escala disipativa donde la viscosidad lidera, en un rango mucho menor a L. En el intermedio existe un amplio rango (llamado inercial) donde la viscosidad es despreciable y domina la no linealidad. 
+
+El flujo de energía hacia las escalas más chicas se da en un proceso de tipo \textit{cascada}. Esta idea fue formulada por Richardson (1922):
+
+\begin{center}
+	\textit{Big whorls have little whorls,} \\
+	\textit{Which feed on their velocity,} \\
+	\textit{And little whorls have lesser whorls,} \\ 
+	\textit{And so on to viscosity.}
+\end{center}
+
+Donde por la ruptura de vórtices grandes se forman más y más chicos. Por esta idea también a veces se le llama a esta turbulencia \textit{Eddy Turbulence}. Además asumimos que la cascada es \textit{local}, o sea que se produce una transferencia de energía de forma continua entre escalas.
+
+\begin{figure}[!th]
+	\centering
+	\includegraphics[width=0.53\linewidth]{Figures/Antecedentes_teoricos/Energy_cascade}
+	\caption{Representación pictórica de la cascada de energía de Richardson. Imagen tomada de \cite{nazarenkoWaveTurbulence2011}.}
+	\label{fig:energycascade}
+\end{figure}
+
+
+Para poder describir a un sistema dinámico tan complejo es necesario recurrir a herramientas estadísticas. 
+
+
+Kolmogorov-Obukhov plantearon un argumento dimensional donde los únicos parámetros relevantes en el rango inercial son el flujo de energía $\varepsilon$ y $k$. En particular para el caso de turbulencia homogénea (no depende de la posición) e isótropa (espectro no depende de la dirección de $\vec k$), o HIT, el espectro de energía en Fourier resulta:
+
+\begin{equation}
+	E(k) = 4\pi k^2E(\vec k) = C\varepsilon^{2/3}k^{-5/3}
+\end{equation}
+
+Que es uno de los resultados más fuertes sobre turbulencia, en acuerdo con muchos resultados experimentales. Sin embargo, para momentos más altos del campo de velocidades empieza a haber diferencias más y más grandes, debido al fenómeno de \textit{intermitencia}, donde se producen fluctuaciones en locales en $\varepsilon$.
+
+\subsection*{Turbulencia 2D}
+Cuando tenemos un flujo ideal incompresible en 2D tenemos dos cantidades conservadas:
+
+\begin{equation}
+	E = \frac{1}{2}\langle \vec u^2 \rangle = \int E(k) dk \qquad \Omega = \frac{1}{2} \langle \vec \omega^2 \rangle = \int k^2 E(k) dk
+\end{equation}
+
+Que son la energía y enstrofía por unidad de área. Vamos a tener entonces una \textit{cascada dual}, de energía y enstrofía. Para saber de qué tipo va a ser cada una recurrimos al argumento de Fjørtoft:
+
+Supongamos que inyectamos energía a un ratio $\varepsilon$ en la escala $k_0$ y por tanto enstrofía a $\eta\sim k_0^2\varepsilon$. Imaginemos que disipamos energía en $k_+\ll k_0$ como ocurriría en el caso 3D, a un ritmo equivalente al de inyección $\varepsilon$. Entonces la enstrofía se disiparía a un ritmo $k_+^2\varepsilon\gg k_0^2\varepsilon\sim \eta$. Esto es una contradicción ya que se estaría disipando enstrofía a un ritmo mayor que el que se inyecta, lo cual no es posible en un sistema estadístico estacionario. Por tanto debe ser que la energía se disipa en $k_-\ll k_0$, y entonces es una \textit{cascada inversa de energía}. Por una lógica análoga concluimos que tenemos una \textit{cascada directa de enstrofía}. De esta forma los vórtices pequeños son estirados por los grandes, y se van uniendo.
+
+
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Figures/Antecedentes_teoricos/Dual_Energy_cascade}
+	\caption{Cascada dual de energía y enstrofía en turbulencia 2D. Imagen de \cite{nazarenkoWaveTurbulence2011}.}
+	\label{fig:dualenergycascade}
+\end{figure}
+
+
+El espectro de energía en la cascada inversa sigue la misma ley de escala anterior, pero con otra constante, mientras que la ley de escala para la cascada directa resulta de tomar como parámetro a $\eta$ en lugar de $\varepsilon$:
+
+\begin{equation}
+	E(k) = C_\eta \eta^{2/3} k^{-3} % .
+\end{equation}
+
+
+
+\subsection*{Turbulencia de Ondas}
+La turbulencia de ondas es una descripción estadística de un sistema mecánico fuera del equilibrio formado por ondas no lineales aleatorias. La diferencia principal respecto a la Turbulencia clásica es que ahora vamos a tener un sistema de ondas en lugar de un sistema de vórtices. 
+
+Una ventaja importante de este tipo de turbulencia es que surge una clausura de forma natural para la jerarquía de momentos estadísticos, que permite calcular más resultados de forma analítica.
+
 \section{Formalismo Hamiltoniano para ondas en medios continuos.}
 \subsection*{Las bases.}
 En el caso más simple posible podemos describir un medio continuo a partir de un par de variables canónicas $q(\vec r, t)$ y $p(\vec r, t)$ de forma tal que las ecuaciones de movimiento serán:
@@ -267,6 +343,7 @@ Con su ecuación de movimiento:
 
 \begin{equation}
 	i\frac{\partial c_{\vec k}}{\partial t} - \omega_k c_{\vec k} = \int \left(\frac{1}{2}V_{k12}c_1c_2\delta(\vec k - \vec k_1 -\vec k_2) + V^*_{1k2}c_1c_2^*\delta(\vec k_1 -\vec k-\vec k_2)\right)d\vec k_1d\vec k_2
+	\label{eq:motion_equation_three_waves}
 \end{equation}
 
 Donde primero tenemos $k\rightarrow1+2$ (que es una sola opción) y luego $k+2\rightarrow1$ (que son dos opciones).
@@ -309,15 +386,59 @@ Por último para los correlatorres de una cantidad impar siempre van a dar 0, y 
 Que básicamente las deltas dan que queden dos o tres  $n$'s.
 
 \subsection*{Ecuación cinética de tres ondas.}
+Para obtener la ecuación de evolución para $n_{\vec k}$ hay que multiplicar \eqref{eq:motion_equation_three_waves} por $c^*_{\vec k}$y restarle la conjugada por $c_{\pvec k'}$, para finalmente tomar el promedio y reemplazar $\vec k=\pvec k'$:
 
+\begin{equation}
+	\frac{\partial n_{\vec k}}{\partial t} = \text{Im} \int\big[V_{k12} \rangle c_k^*c_1c_2 \langle \delta(\vec k- \vec k_1 -\vec k_2) - 2V_{1k2}\langle c_1^*c_kc_2 \rangle \delta(\vec k_1 - \vec k - \vec k_2) \big] d\vec k_1 d\vec k_2
+\end{equation} 
+
+Ahora bien $\langle c_1^+c_2c_3 \rangle = 0$ a orden 0. Debemos entonces ir a un orden más en la teoría perturbativa para calcular el correlator de tres puntos. Esto lo hacemos usando la ecuación \eqref{eq:motion_equation_three_waves} por otras dos amplitudes y sumando:
+
+\begin{equation}
+	\left[i\frac{\partial}{\partial t} + (\omega_1-\omega_2-\omega_3)\right] \langle c_1^*c_2c_3 \rangle = \int \left[-\frac{1}{2}V_{145}^*\langle c_4^*c_5c_2c_3 \rangle \delta(\vec k_1 - \vec k_4 -\vec k_5) + V_{425}^*\langle c_1^*c_5c_3c_4 \rangle \delta(\vec k_4 - \vec k_2 -\vec k_5) + V_{435}^*\langle c_1^*c_5c_2c_4 \rangle \delta(\vec k_4 - \vec k_3 -\vec k_5)\right] d\vec k_4 d\vec k_5
+\end{equation}
+
+Ahora usamos la expresión a primer orden del correlator de cuatro puntos de antes y llegamos a que:
+
+\begin{equation}
+	\left[i\frac{\partial}{\partial t} + (\omega_1-\omega_2-\omega_3)\right] \langle c_1^*c_2c_3 \rangle = V_{123}^*[n_1n_3+n_1n_2-n_2n_3]
+\end{equation}
+
+Al segundo orden de perturbaciones esta ecuación pedimos que no dependa del tiempo. Intgrando nos queda un término constanTe $A_{123}/\Delta\omega$ y otro que oscila rápidamente a frecuencia $\Delta\omega t$, que puede ser despreciada al integrar el correlator de tres puntos. De esta forma nos queda esencialmente que:
+
+\begin{equation}
+	\langle c_1^*c_2c_3 \rangle = \frac{V_{123}^*(n_1n_2+n_1n_3-n_2n_3)}{\omega_1-\omega_2-\omega_3+i\delta}
+\end{equation} 
+
+Se coloca $+i\delta$ para evitar el polo, que vamos a atravesar ya que se da en la condición resonante. Hacemos tender $\delta\rightarrow0$ y usamos que $\text{Im}(1/(\omega+i\delta))\rightarrow-\pi\delta(\omega)$, que es medio residuo al integrar en el eje real y el signo menos sale por la orientación de la curva. \footnote{Queremos la integral de izquierda a derecha en los reales, cerramos por abajo con un semicírculo de forma que encerramos el polo en $\omega=-i\delta$, cuya integral en el infinito dad 0. Luego equivale la integral en reales al medio residuo $-2\pi i/2$ y finalmente tomamos la parte imaginaria.} 
+
+
+Reemplazando este resultado en la ecuación cinética obtenemos:
+
+\begin{align}
+	\frac{\partial n_{\vec k}}{\partial t} &= \pi \int\big[|V_{k12}|^2f_{k12}\delta(\vec k - \vec k_1 - \vec k_2) \delta(\omega - \omega_1 - \omega_2) + 2 |V_{1k2}|^2 f_{1k2} \delta(\vec k_1 - \vec k - \vec k_2) \delta(\omega_1 - \omega - \omega_2) \big]  \\ 
+	f_{123} &= n_1n_2n_3\left(\frac{1}{n_1} - \frac{1}{n_2} -  \frac{1}{n_3}\right)
+\end{align}
 
 
 \subsection*{Ecuación cinética de cuatro ondas.}
+Seguimos un procedimiento análogo al anterior, nuevamente va a dar a primer orden 0, con lo cual hay que ir a un orden más alto y ahora usar el correlator de seis puntos. Finalmente queda:
+
+\begin{align}
+	\frac{\partial n_{\vec k}}{\partial t} &= \frac{\pi}{2} \int |T_{k123}|^2 f_{k123} \delta(\vec k + \vec k_1 - \vec k_2 -\vec k_3) \delta(\omega + \omega_1 -\omega_2 - \omega_3) d\vec k_1 d\vec k_2 d\vec k_3 \\
+	f_{1234} &= n_1n_2n_3n_4\left(\frac{1}{n_1} + \frac{1}{n_2} - \frac{1}{n_3} - \frac{1}{n_4} \right)
+\end{align}
+
+
 
 
 
 
 \section{Correspondencia con fluidos con superficie libre.}
+
+
+
+\section{Turbulencia de Ondas Discreta}
 
 
 
