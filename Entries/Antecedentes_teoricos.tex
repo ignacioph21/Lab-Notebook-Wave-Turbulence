@@ -462,7 +462,7 @@ Esta propiedad, a la cual nos referimos como clausura Gaussiana ya que nos permi
 Para obtener la ecuación de evolución para $n_{\vec k}$ hay que multiplicar \eqref{eq:motion_equation_three_waves} por $c^*_{\vec k}$y restarle la conjugada por $c_{\pvec k'}$, para finalmente tomar el promedio y reemplazar $\vec k=\pvec k'$:
 
 \begin{equation}
-	\frac{\partial n_{\vec k}}{\partial t} = \text{Im} \int\big[V_{k12} \rangle c_k^*c_1c_2 \langle \delta(\vec k- \vec k_1 -\vec k_2) - 2V_{1k2}\langle c_1^*c_kc_2 \rangle \delta(\vec k_1 - \vec k - \vec k_2) \big] d\vec k_1 d\vec k_2
+	\frac{\partial n_{\vec k}}{\partial t} = \text{Im} \int\big[V_{k12} \langle c_k^*c_1c_2 \rangle \delta(\vec k- \vec k_1 -\vec k_2) - 2V_{1k2}\langle c_1^*c_kc_2 \rangle \delta(\vec k_1 - \vec k - \vec k_2) \big] d\vec k_1 d\vec k_2
 \end{equation} 
 
 Ahora bien $\langle c_1^+c_2c_3 \rangle = 0$ a orden 0. Debemos entonces ir a un orden más en la teoría perturbativa para calcular el correlator de tres puntos. Esto lo hacemos usando la ecuación \eqref{eq:motion_equation_three_waves} por otras dos amplitudes y sumando:
@@ -489,11 +489,11 @@ Al segundo orden de perturbaciones esta ecuación pedimos que no dependa del tie
 Se coloca $+i\delta$ para evitar el polo, que vamos a atravesar ya que se da en la condición resonante. Hacemos tender $\delta\rightarrow0$ y usamos que $\text{Im}(1/(\omega+i\delta))\rightarrow-\pi\delta(\omega)$, que es medio residuo al integrar en el eje real y el signo menos sale por la orientación de la curva. \footnote{Queremos la integral de izquierda a derecha en los reales, cerramos por abajo con un semicírculo de forma que encerramos el polo en $\omega=-i\delta$, cuya integral en el infinito dad 0. Luego equivale la integral en reales al medio residuo $-2\pi i/2$ y finalmente tomamos la parte imaginaria.} 
 
 
-Reemplazando este resultado en la ecuación cinética obtenemos:
+Reemplazando este resultado en la ecuación cinética obtenemos\footnote{En \cite{zakharovKolmogorovSpectraTurbulence1992} p. 67 el signo es $+$, pero por \cite{nazarenkoWaveTurbulence2011} y lo que sigue creo es $-$.}:
 
 \begin{equation}
 	\begin{split}
-		\frac{\partial n_{\vec k}}{\partial t} &= \pi \int\big[|V_{k12}|^2f_{k12}\delta(\vec k - \vec k_1 - \vec k_2) \delta(\omega - \omega_1 - \omega_2) + 2 |V_{1k2}|^2 f_{1k2} \delta(\vec k_1 - \vec k - \vec k_2) \delta(\omega_1 - \omega - \omega_2) \big]  \\ 
+		\frac{\partial n_{\vec k}}{\partial t} &= \pi \int\big[|V_{k12}|^2f_{k12}\delta(\vec k - \vec k_1 - \vec k_2) \delta(\omega - \omega_1 - \omega_2) - 2 |V_{1k2}|^2 f_{1k2} \delta(\vec k_1 - \vec k - \vec k_2) \delta(\omega_1 - \omega - \omega_2) \big]  \\ 
 		f_{123} &= n_1n_2n_3\left(\frac{1}{n_1} - \frac{1}{n_2} -  \frac{1}{n_3}\right)
 	\end{split}
 \end{equation}
@@ -542,28 +542,105 @@ Donde $C_{\vec k}$ es la integral de interacciones entre ondas, $D_{\vec k}$ el 
 El caso en que $D_k=I_k=0$ corresponde con el equilibrio termodinámico, o la solución de Rayleigh-Jeans, y está asociada a una equipartición de energía entre todos los modos.
 
 
-\section*{Balance de energía}
-Vamos a tener en el rango inercial (siempre que la escala de inyección y disipación estén lo suficientemente separadas) la conservación del flujo de "partículas" (conservación de E dada por la presencia de las deltas en las integrales de colisiones $I_k^N$) dada por:
+\section*{Propiedades de la Ecuación Cinética.}
+\subsection*{Cantidades conservadas}
+Como ya se mencionó varias veces el sistema dinámico preserva ciertas cantidades, en particular la energía $E$ y momento $\vec \Pi$ en el caso general, y para el caso de interacciones del tipo $2\rightarrow2$ también $N$.
+
+Podemos ver que estas conservaciones se mantienen en la descripción estadística, a partir de la Ecuación Cinética. En el caso de la energía y momento es intuitivo ya que tenemos las deltas que preservan estas cantidades durante las interacciones. Pensemos como \cite{nazarenkoWaveTurbulence2011} en el caso de una magnitud arbitraria $\Phi$ cuya densidad espectral es $\phi(\vec k) = \rho(\vec k)n(\vec k)$, entonces su evolución temporal será:
 
 \begin{equation}
-	\varepsilon \equiv \frac{\partial }{\partial t} \int n_{\vec k} \omega d\vec k 
+	\frac{d\Phi}{dt} = \dot \Phi = \frac{d}{dt}\int\phi(\vec k)d\vec k = \int \rho(\vec k)\frac{\partial n(\vec k)}{\partial t}d\vec k
 \end{equation}
 
-O bien:
+Ahora podemos reemplazar la derivada temporal de $n_{\vec k}$ por la ecuación cinética. Veamos en particular el caso de tres ondas, el de cuatro es análogo.
+
+\begin{align}
+	\frac{\partial n_{\vec k}}{\partial t} &= \int \big(\mathcal{R}_{k12} -\mathcal{R}_{2k1} - \mathcal{R}_{12k}\big) d\vec k_1 d\vec k_2 \\
+	\mathcal{R}_{123} &= \pi |V_{123}|^2 n_1n_2n_3\left(\frac{1}{n_1}-\frac{1}{n_2}-\frac{1}{n_3}\right)\delta(\omega_1-\omega_2-\omega_3)\delta(\vec k_1 -\vec k_2-\vec k_3)
+\end{align}
+
+Entonces resulta,
+
+\begin{equation}
+	\dot \Phi = \int \rho_{\vec k}  \big(\mathcal{R}_{k12} -\mathcal{R}_{2k1} - \mathcal{R}_{12k}\big)    d\vec  k d\vec k_1 d\vec k_2 = \int (\rho_k-\rho_1 -\rho_2) \mathcal{R}_{k12} d\vec k d\vec k_1 d\vec k_2
+\end{equation}
+
+Donde en el último igual solo se renombraron las variables de integración cíclicamente (esto se puede hacer ya que estamos integrando en las tres, con lo cual se vuelven mudas).
+
+Podemos ver entonces que si $\rho_k-\rho_1-\rho_2=0$ ocurre en simultáneo con las condiciones de resonancia, entonces la cantidad $\Phi$ se conserva, o sea, $\dot\Phi=0$. Para la energía basta con tomar $\rho_{\vec k}=\omega(\vec k)$, y para la componente $i$-ésima del momento basta con tomar $\rho(\vec k)\vec k_i$. 
+
+En el caso de cuatro ondas por un método análogo nos va a quedar la condición $\rho_k+\rho_1=\rho_2+\rho_3$ y podemos obtener la conservación de la acción de onda tomando simplemente $\rho(\vec k)=1$. 
+
+Una cosa importante a mencionar es que en el caso no degenerado las cantidades $E$, $N$ y $\vec \Pi$ forman un conjunto completo de integrales de movimiento. Pueden aparecer otras constante sólo en casos degenerados \cite{zakharovKolmogorovSpectraTurbulence1992} donde se satisfaga la condición $\rho_k=\rho_1+\rho_2$ para densidades tales que $\rho(\vec k)\neq A\omega(\vec k)+\vec B\cdot\vec k$. De ser el caso decimos que $\omega(\vec k)$ es degenerada.
+
+Un ejemplo de esto es el caso de aguas poco profundas en el modelo de Kadomtsev-Petviashvili, donde se pueden encontrar infinitas integrales de movimiento, propiedad heredada de la ya establecida integrabilidad de la propia ecuación.
+
+\subsection*{Balance de energía.}
+Ya establecimos que la energía total se conserva, o sea:
+
+\begin{equation}
+	\frac{dE}{dt} = \int \frac{\partial E_{\vec k}}{\partial t} d\vec k =\int \omega \frac{\partial n_{\vec k}}{\partial t} d\vec k  
+\end{equation}
+
+Ahora podemos usar nuevamente la ecuación cinética nuevamente, ahora escita de la forma: $\partial_t n_{\vec k} = I_{\vec k}^N$, siendo $I_k^N$ las integrales de colisiones. Esto va a ser cierto en el rango inercial (siempre que la escala de inyección y disipación estén lo suficientemente separadas). Entonces podemos escribir una ecuación de continuidad para la energía
+
+%\begin{equation}
+%	\varepsilon \equiv \frac{\partial }{\partial t} \int n_{\vec k} \omega d\vec k 
+%\end{equation}
+ 
+\begin{equation}
+	\frac{\partial E(\vec k)}{\partial t} + \vec\nabla_{\vec k} \cdot \vec \varepsilon = 0  \qquad \vec\nabla_{\vec k} \cdot \vec \varepsilon \equiv - \omega(\vec k)\;I_{\vec k}^N
+	\label{eq:energy_balance}
+\end{equation}
+
+
+Donde definimos el flujo de energía $\vec \varepsilon$. O su versión 1D con la normalización de cilíndricas:
 
 \begin{equation}
 	\frac{\partial E(k)}{\partial t} + \frac{\partial \varepsilon}{\partial k} = 0
-	\label{eq:energy_balance}
 \end{equation}
 
 Notamos que ecuaciones estacionarias de la ecuacion cinética ($\partial_tn_k = 0$) implican que las integrales de colisiones son 0, y se corrseponden con un flujo constante de energía $\varepsilon$ entre escalas. Para la relación de dispersión $\omega\sim k^{alpha}$ son los espectros de KZF, análogos a la Ley de -5/3 (c.f. \eqref{eq:Kolmogorov_5_3}) de Kolmogorov para turbulencia normal.
 
+Lo mismo se puede hacer para el momento:
+
+\begin{equation}
+	\frac{\partial\vec \pi(\vec k)}{\partial t} + \vec\nabla_{\vec k} \cdot  \mathbf{R} = 0  \qquad \vec\nabla_{\vec k} \cdot  \mathbf{R} \equiv - \vec k\;I_{\vec k}^N 
+\end{equation}
+
+Donde $\mathbf{R}$ es un tensor de rango 2.
+
 Para el caso en que se conserva la integral de acción de onda $N=\int n_k dk$ vamos a definir el flujo de \textit{wave action} como:
+
+\begin{equation}
+	\frac{\partial n(\vec k)}{\partial t} + \vec\nabla_{\vec k} \cdot \vec \zeta = 0  \qquad \vec\nabla_{\vec k} \cdot \vec \zeta \equiv - \;I_{\vec k}^N
+\end{equation}
+
+O su versión en 1D:
 
 \begin{equation}
 	\frac{\partial n_k}{\partial t} + \frac{\partial \zeta}{\partial k} = 0
 \end{equation}
 
+
+\subsection*{Cuando hay disipación.}
+Cuando agregamos el término disipativo en la ecuación cinética $+\Gamma({\vec k})n_{\vec k}$ entonces en el caso estacionario nos va a quedar:
+
+\begin{equation}
+	I^N(\vec k) + \Gamma(\vec k)n(\vec k) = 0
+\end{equation}
+
+Esto también modela la inyección de ondas para $\Gamma(\vec k)>0$. Con esto, reemplazando la integral de colisiones de la expresiones anteriores, el balance de energía nos va a quedar 
+
+\begin{equation}
+	\frac{d\varepsilon}{dk} = \Gamma(\vec k)E(\vec k)
+\end{equation}
+
+Y además por la conservación de la energía y el momento tenemos:
+
+\begin{equation}
+	\int \Gamma(\vec k) \omega n(\vec k)d\vec k = 0 \qquad \int \Gamma(\vec k) \vec k n(\vec k)d\vec k = 0
+\end{equation}
 
 \section{Espectro de energía y PSD.}
 Nos interesará estudiar la transferencia de energía entre escalas experimentalmente, que estará caracterizada por la densidad espectral de energía $E_k$ tal que la magnitud $E = \int E_k dk$ se conserva. 
