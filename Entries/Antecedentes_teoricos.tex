@@ -630,17 +630,28 @@ Cuando agregamos el término disipativo en la ecuación cinética $+\Gamma({\vec
 	I^N(\vec k) + \Gamma(\vec k)n(\vec k) = 0
 \end{equation}
 
-Esto también modela la inyección de ondas para $\Gamma(\vec k)>0$. Con esto, reemplazando la integral de colisiones de la expresiones anteriores, el balance de energía nos va a quedar 
+Esto también modela la inyección de ondas para $\Gamma(\vec k)>0$. 
+
+Sabemos por lo que mostramos antes que vale por las deltas de la integral de colisiones:
+
+\begin{equation}
+	\int I^N({\vec k}) \; \omega d\vec k = \int I^N({\vec k})\; \vec k d\vec k = 0 
+\end{equation}
+
+Entonces por la conservación de la energía y el momento tenemos, de multiplicar por $\omega$ y $\vec k$ la ecuación cinética estacionaria e integrar obtenemos:
+
+\begin{equation}
+	\int \Gamma(\vec k) \omega n(\vec k)d\vec k = 0 \qquad \int \Gamma(\vec k) \vec k n(\vec k)d\vec k = 0
+\end{equation}
+
+
+Finalmente si integramos la ecuación de continuidad la parte de la integral de colisiones va a dar 0, con lo cual efectivamente nos va a quedar que la variación del flujo es:
 
 \begin{equation}
 	\frac{d\varepsilon}{dk} = \Gamma(\vec k)E(\vec k)
 \end{equation}
 
-Y además por la conservación de la energía y el momento tenemos:
-
-\begin{equation}
-	\int \Gamma(\vec k) \omega n(\vec k)d\vec k = 0 \qquad \int \Gamma(\vec k) \vec k n(\vec k)d\vec k = 0
-\end{equation}
+Y si vemos lo que pasa en una esfera se puede mostrar que el flujo de energía por la superficie se corresponde con el disipado y el inyectado. \cite{falkovichTurbulence2006}
 
 \section{Espectro de energía y PSD.}
 Nos interesará estudiar la transferencia de energía entre escalas experimentalmente, que estará caracterizada por la densidad espectral de energía $E_k$ tal que la magnitud $E = \int E_k dk$ se conserva. 
