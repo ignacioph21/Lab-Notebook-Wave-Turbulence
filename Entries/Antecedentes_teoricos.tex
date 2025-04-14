@@ -364,7 +364,7 @@ Que tendrá solución única dadas la altura de la superficie libre $\eta(\vec x
 Definimos:
 
 \begin{equation}
-	w^s = \left(\frac{\partial\phi}{\partial x}\right)_eta
+	w^s = \left(\frac{\partial\phi}{\partial x}\right)_\eta
 \end{equation} 
 
 Y transformamos todo a Fourier. La ecuación de Laplace queda:
@@ -433,8 +433,8 @@ Vamos a asumir una "caotización" de las fases, de forma tal que aunque al inici
 \begin{equation}
 	\begin{split}
 		\langle c_{\vec k}\rangle &= \langle |c_{\vec k}|e^{i\phi_{\vec k}}	 \rangle = 0 \\
-		\langle c_{\vec k} c_{\pvec k'} \rangle &= \langle |c_{\vec k}||c_{\pvec k'} e^{i(\phi_{\vec k}+\phi_{\pvec k'})}| = 0 \\
-		\langle c_{\vec k} c^*_{\pvec k'} \rangle  &= \langle |c_{\vec k}||c_{\pvec k'} e^{i(\phi_{\vec k}-\phi_{\pvec k'})}| = n(\vec k) \delta(\vec k - \pvec k')
+		\langle c_{\vec k} c_{\pvec k'} \rangle &= \langle |c_{\vec k}||c_{\pvec k'}| e^{i(\phi_{\vec k}+\phi_{\pvec k'})} \rangle = 0 \\
+		\langle c_{\vec k} c^*_{\pvec k'} \rangle  &= \langle |c_{\vec k}||c_{\pvec k'}| e^{i(\phi_{\vec k}-\phi_{\pvec k'})} \rangle = n(\vec k) \delta(\vec k - \pvec k')
 	\end{split}
 \end{equation} 
 
