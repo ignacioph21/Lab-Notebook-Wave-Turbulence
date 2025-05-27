@@ -45,3 +45,18 @@ Algunos links útiles: % . .
 	\item Página para convertir voltaje pico a pico a RMS y vice-versa: https://www.allaboutcircuits.com/tools/peak-to-peak-voltage-calculator/
 	\item Página para calcular la frecuncia $f$ y factor de calidad $Q$ de un circuito RLC simple en serie: https://www.omnicalculator.com/physics/rlc-circuit % $ {} . : 
 \end{itemize}
+
+% Probando 
+
+\section{Viernes 16/05/2025}
+Empecé a probar alternativas al Lock-in por las dificultades que dio la vez pasada. De todas formas parece ser que hay uno de los dos lock-ins que da problemas durante los laboratorios según Ale, que fue el que usamos nosotros. Quedaría probar con el otro por si realmente el comportamiento extraño fue cosa del aparato.
+
+\subsection*{Arduino}
+Estuve investigando la posibilidad de utilizar un Arduino como Osciloscopio o Placa de adquisición como ya mencioné con anterioridad, pero los programas que estuve probando no alcanzaban el nivel de complejidad que necesitaríamos. Usando simplemente el puerto analógico A0 como placa de adquisición logré tomar datos a frecuencia de sampleo de 1 kHZ aproximadamente, pudiendo definir bien una señal de 91 Hz. Sin embargo querríamos poder definir señales del orden de 100 kHz, que es mucho más alta. Teóricamente el máximo de adquisición que permite el ADC de la placa es de cerca de 10 kHZ, tal vez pudiendo aumentarlo de alguna forma hasta 40 o 50 kHZ, pero seguiría sin ser suficiente para lo que queremos usarlo. % ia 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.97\linewidth]{Figures/12_05_2025/Placa_1kHz_MEDIR91_HZ_Zoom.png}
+	\caption{Señal adquirida usando Python + Arduino a 1 kS/s para una señal de 91 Hz.}
+	\label{fig:placa1khzmedir91hzzoom}
+\end{figure}

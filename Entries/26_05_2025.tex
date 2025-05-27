@@ -1,0 +1,23 @@
+\entry{Semana del 26/05/2025}
+
+\section*{Cosas a discutir.}
+
+\begin{itemize}
+	\item Por ahí se planchaba por las irregularidades en el alambre de cobre (no recto).
+	\item Valor medio de 90°, ¿Por qué?. ¿Mezcladas referencias en Lock-in respecto el output?. 
+	\item Tierras distintas del circuito y el agua, ¿aislar la pecera? no sería muy práctico en un canal gigante. 
+	\item No variamos la resistencia, a mayor $R$ mayor $Q_F$ y más grande puede ser $\Delta l$. 
+	\item La fase $\phi \propto r/e\;\Delta l$, a mayor $e$ o menor $r$ deberíamos aumentar el rango.
+	\item Pedir placa de adquisición IO-TECH Personal DAQ 3000 para probar cosas mientras pensamos lo de la Teensy.
+	\item Revisar frecuencia de sampleo máxima Raspberry PI
+	\item Armar placa PCB con KiCAD:
+	
+	\begin{itemize}
+		\item Potenciómetro en vez de resistencia fija.
+		\item 2 x jacks BNC a PCB de 90°, en MercadoLibre pero no la datasheet exacta. Sino comprarlos de antemano para medirlos. Esto para entrada del generador y salida al sensor.
+		\item 2 x Borneras de 2 pins para lo mismo (más fácil conseguirlo en ELEMON).
+		\item Bornera para voltaje sobre la resistencia o 1 BNC a 2 con las tierras unidas.
+		\item Tal vez explorar oscilador 555 a onda sinoiodal con frecuencia variable mediante potenciómetro. 
+	\end{itemize}
+\end{itemize}
+
