@@ -426,15 +426,168 @@ O sea, vamos a necesitar una forma de inferir el valor de la señal de referenci
 Además vamos a necesitar construir el coseno en esos mismos puntos de alguna forma. % $-
 
 \subsection*{Ajuste senosoidal.} 
+El primer enfoque para obtener la referencia sampleada en los puntos que necesitamos ($t_m$) fue ajustar los datos medidos (en $t_n$) para la referencia por:
 
+\begin{equation*}
+	Q_x(t_n) = A_0\sin(2\pi f_0 t_n+ \phi_0)
+\end{equation*} 
 
+Con parámetros $A_0$, $f_0$ y $\phi_0$. Luego la referencia resampleada y la señal shifteda 90° van a ser 
 
+\begin{equation*}
+	Q_x(t_m) = \text{sgn}(A_0)\sin(2\pi f_0 t_m+ \phi_0) \qquad \text{y} \qquad Q_y(t_m) = \text{sgn}(A_0)\cos(2\pi f_0 t_m+ \phi_0)
+\end{equation*}
+
+El signo es importante ya que sino sería como incorporar una fase de $\pm\pi$ aleatoriamente según si el ajuste da positivo o negativo, y esto daba lugar a tener que hacer unwrappings con periodo $\pi$ innecesarios.
+
+Para pocos puntos este método funcionaba bastante bien, pero para las medidas de prueba con aproximadamente 13 millones de puntos por canal (para unos 25 segundos) ya no tanto. Los principales problemas de este método son los siguientes:
+
+\begin{itemize}
+	\item Durante mucho tiempo la señal de referencia no es perfectamente estable y va variando lentamente en el tiempo, lo que introduce ruido sino se tienen en cuenta durante el análisis. 
+	\item Si el ajuste da una frecuencia levemente distinta a la real la fase va a tener sumando un término de la forma $\Delta\omega t$ que va a tener montada la fase que nos interesa y habría que hacer un detrend lineal. 
+	\item El ajuste para muchos puntos lleva mucho tiempo. 
+	\item Traté de limitar los parámetros para que $A_0$ siempre fuese positiva y $\phi_0$ vaya entre $[-\pi,+\pi]$ pero no encontraba parámetros óptimos por algún motivo. Y por defecto ``curve\_fit" de \textit{scipy} daba fases del orden de 50 radianes. 
+\end{itemize}
+
+Para evitar estos problemas traté de analizar los datos de a ventanas que se solapen, quedándome con la última mitad de los datos, ya que el lock-in siempre hace cosas raras con los primeros puntos. Pero hacia los últimos datos siguen apareciendo las tendencias lineales en la referencia y no estoy muy seguro porqué (incluso analizando referencia contra referencia). No sé si serán los últimos datos antes de detener la medición o si a partir de 20 segundos de medir pasa algo, como se ve más abajo (para medición de forzado diagonal del tanque y relajación, después de que se salió un poco de agua). 
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.857\linewidth]{Figures/09_06_2025/Lock_in_ajuste_intervalos_con_overlap}
+	\caption{Método de reconstrucción de la señal de referencia por ajuste de cuadrados mínimos en intervalos con overlap de la señal.}
+	\label{fig:lockinajusteintervalosconoverlap}
+\end{figure}
+
+Por otro lado haciendo el ajuste en la señal completa imagino que se compensan los errores en la señal de referncia pero igual queda un pequeño ruido que hay que restar a posteriori (por ahí si la amplitud de la fase fuese mayor no se notaría tanto).
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.987\linewidth]{Figures/09_06_2025/Lock_in_ajuste_completo}
+	\caption{Lock in de la medición completa con reconstrucción de la referencia por Ajuste de cuadrados mínimos.}
+	\label{fig:lockinajustecompleto}
+\end{figure}
+
+Con esto queda funcionando el método, pero hay que hacer dos veces el análisis (una para la señal y otro para la referencia) lo que no es del todo muy eficiente.
 
 
 \subsection*{Fractional delay.} 
+Otra opción para reconstruir la referencia es utilizar lo que se conoce como \textbf{Fractional Delay Filters}. Estos nos permiten para una señal con un ancho de banda limitado, tal que esa frecuencia máxima sea sampleada regularmente a la frecuencia de Nyquist. \cite{roelandtsHowCreateFractionalDelay2019}
+
+Esto se debe a la aplicación del Teorema de Whittaker–Shannon que nos permite reconstruir ese tipo de señales completamente. Supongamos que tenemos $Q[n]$ sampleada en los puntos $t_n$. Entonces la señal completa va a ser:
+
+\begin{equation}
+	Q(t) = \sum_{n=-\infty}^{+\infty} Q[n]\text{sinc}\left(\frac{t-nT}{T}\right) \qquad \text{con} \qquad \text{sinc}(t) = \frac{\sin(\pi t)}{\pi t}
+\end{equation}
+
+Con $T=1/f_s$. Por simplicidad consideremos $T=1$ ya que vamos a agregar un delay no cambia. Luego si queremos retrasar la señal una fracción $j=\tau/T$, entonces vamos a tener la señal evaluada en $t=t_m-\tau$ o $t/T=m-j$
+
+\begin{equation}
+	Q[m-j] = \sum_{n=-\infty}^{+\infty}Q[n]\text{sinc}(m-j-n)
+\end{equation} 
+
+Y si recordamos la definición de la convolución discreta:
+
+\begin{equation}
+	Q[m-j]=(Q*h)[m] = \sum_{n=-\infty}^{+\infty}Q[n]h[m-n] \qquad \text{con} \qquad h[n]=\text{sinc}(n-j)
+\end{equation}
+
+Acá sin embargo tenemos una sumatoria infinita y el sinc($x$) no decae a 0, no tiene soporte finito, y la cantidad de datos que podemos medir son limitados. Así que para solucionar esto usamos una ventana que lo lleve a 0 en cierta cantidad de puntos, cuantos más usemos mejor funcionará ya que más términos tiene la sumatoria. 
+
+En python queda:
+
+\begin{lstlisting}
+def resample(ts, signal):
+	fs = 1/(ts[1] - ts[1-1])
+	t0 = -0.5
+	h = fractional_delay(t0)
+	delayed = convolve(signal, h, mode="same")
+	new_ts = ts - t0/fs
+	return new_ts, delayed
+	
+def shift_90(ts, signal):
+	fs = 1/(ts[1] - ts[1-1])
+	
+	Ar, fr = fft_parameters(ts, signal)
+	
+ 	Delta = -1/4 * fs/fr 
+	h_cos = fractional_delay(Delta)
+	cos_measured = convolve(signal, h_cos, mode="same")
+	return cos_measured
+\end{lstlisting}
 
 
+Donde obtenemos los coeficientos del FDF con la librería de \textit{pyroomacoustics}:
 
+\begin{lstlisting}
+def fractional_delay(t0):	
+	N = constants.get("frac_delay_length")
+	
+	if isinstance(t0, np.ndarray) and t0.ndim == 1:
+	t0 = t0[:, None]
+	
+	return np.hanning(N) * np.sinc(np.arange(N) - (N - 1) / 2 - t0)
+	
+\end{lstlisting}
+
+El N=81 por defecto y usa la ventana Hanning. Parece estar funcionando bastante bien. Para el seno hay que retrasar medio punto de sampleo y a parte correr los tiempos. Para el coseno hay que retrasar un tiempo que de una fase de 90°:
+
+\begin{equation}
+	2\pi f \Delta t = \pi/2 \quad \Rightarrow \quad \Delta t = j/f_s = 1/(4f) \quad \Rightarrow \quad j = f_s/(4f)
+\end{equation}
+
+Y luego de retrasarla 90° resamplearla para que esté en los mismos puntos que la señal original de interés. Ahora que lo pienso se podría retrasar 90° directamente el seno resampleado. 
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.87\linewidth]{Figures/09_06_2025/Fractional_Delay}
+	\caption{Resampleo de una señal artifical y shifteo de 90° con los FDF.}
+	\label{fig:fractionaldelay}
+\end{figure}
+
+Con esta reconstrucción de las señales de referencia se puede hacer el Lockin a toda la señal completa (13 millones de puntos) y es bastante más rápido. 
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.987\linewidth]{Figures/09_06_2025/FDF_completa}
+	\caption{Señal completa analizado con el lock in y FDF.}
+	\label{fig:fdfcompleta}
+\end{figure}
+
+Y acá además no hace falta analizar la referencia por separado porque se usa la verdadera punto a punto y no una artificial como antes.
+
+Además tarda para analizar 50000 puntos (0.1 s a 500 kHz de sampleo) en 0.015 s con lo que se podrpia usar a tiempo real sampleando un poco menos, por ejemplo, durante 0.085 s, y tener 10 puntos por segundo.
 
 \subsection*{Filtro exponencial.}
+Por último, vine usando hasta ahora el butter low pass filter para el lock-in, pero en \cite{harvieOLIAOpensourceDigital2023} usan uno que se conoce como filtro exponencial o exponential moving average, tal vez más conveniente para tiempo real, ya que solo depende de los puntos anteriores. Si tenemos nuestros valores en un determinado momento:
 
+\begin{equation}
+	X_0[n] = A[n]C[n] \qquad \text{y} \qquad Y_0[n] = A[n]S[n]
+\end{equation}
+
+Con $A[n]$ la señal de interés con la modulación, $S[n]$ la referencia (para esto el seno) y $C[n]$ la shifteada 90°, el coseno. Luego filtramos en dos etapas, usando el parámetro $\alpha=\cos(\gamma)-1+\sqrt{\cos^2(\gamma)-4\cos(\gamma)+3}$ que se relaciona con la frecuencia de corte o el tiempo de integración $\tau$ de la forma: $\gamma=2\pi f_c/f_s$ con $f_s$ la frecuencia de sampleo. Entonces:
+
+\begin{align}
+	X_1[n] &= X_1[n-1] + \alpha(X_0[n]-X_1[n-1]) \\
+	Y_1[n] &= Y_1[n-1] + \alpha(Y_0[n]-Y_1[n-1]) \\
+\end{align}
+
+y la segunda etapa: 
+
+\begin{align}
+		X_2[n] &= X_2[n-1] + \alpha(X_1[n]-X_2[n-1]) \\
+		Y_2[n] &= Y_2[n-1] + \alpha(Y_1[n]-Y_2[n-1]) \\
+\end{align}
+
+Y podemos elegir trivialmente $X_0[-1]=Y_0[-1]=0$. Con este para la señal anterior y el FDF tenemos: 
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.987\linewidth]{"Figures/09_06_2025/Exponential filter más FDF"}
+	\caption{Filtro exponencial + FDF de la señal completa.}
+	\label{fig:exponential-filter-mas-fdf}
+\end{figure}
+
+
+También funciona bastante bien, pero para el array ya entero funciona un poco más lento que el butter low pass de antes. Para tiempo real no lo sé todavía.  
+
+Con el ajuste de nuevo habría que restar la fase de la referencia origianl.
