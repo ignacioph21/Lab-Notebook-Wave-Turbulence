@@ -590,4 +590,17 @@ Y podemos elegir trivialmente $X_0[-1]=Y_0[-1]=0$. Con este para la señal anter
 
 También funciona bastante bien, pero para el array ya entero funciona un poco más lento que el butter low pass de antes. Para tiempo real no lo sé todavía.  
 
-Con el ajuste de nuevo habría que restar la fase de la referencia origianl.
+Con el ajuste de nuevo habría que restar la fase de la referencia original. 
+
+
+\section*{Análisis espectral.} % sub 
+Por último el mismo análisis espectral que ya hicimos para el SR830.
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.987\linewidth]{"Figures/09_06_2025/Análisis espectral señal frozado"}
+	\caption{Análisis espectral forzadao y relajación.}
+	\label{fig:analisis-espectral-senal-frozado}
+\end{figure}
+
+De nuevo la fundamental es la más excitadas pero después aparecen múltiplos de la misma y no sé del todo porqué, por ahí las no linealidades del sistema afectan acá.
