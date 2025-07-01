@@ -220,7 +220,7 @@ Tomamos las siguientes mediciones para uno y dos motores prendidos:
 
 
 \section{Viernes 27/06/2025}
-Me centré en continuar con el análisis de los datos de la cuba grande del Miércoles pasado. Reescribí el código para nuevamente pasar los valores anteriores del filtro exponencial a la ventana siguiente, para así solo procesar de a pedazos el archivo completo, leyendo cada uno con memmap de numpy, y así no sobrecargar la memoria. Además como son millones y millones de puntos literalmente optimicé el filtro exponencial con numba para que no tarde tanto, al ser simplemente un loop. 
+Me centré en continuar con el análisis de los datos de la cuba grande del Miércoles pasado. Reescribí el código para nuevamente pasar los valores anteriores del filtro exponencial a la ventana siguiente, para así solo procesar de a pedazos el archivo completo, leyendo cada uno con memmap de numpy, y así no sobrecargar la memoria. Además como son millones y millones de puntos literalmente optimicé el filtro exponencial con numba para que no tarde tanto, al ser simplemente un loop.  
 
 \begin{figure}[th!]
 	\centering
