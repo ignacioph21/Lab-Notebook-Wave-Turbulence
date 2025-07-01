@@ -185,7 +185,7 @@ Por último armamos con Manu para medir en la cuba grande como se ve en la foto:
 
 \begin{figure}[th!]
 	\centering
-	\includegraphics[width=0.87\linewidth]{Figures/23_06_2025/Cuba_forzado_y_sensor}
+	\includegraphics[width=0.780257\linewidth]{Figures/23_06_2025/Cuba_forzado_y_sensor}
 	\caption{Setup para medir en la cuba grande wave turbulence con el sensor capacitivo. } % $$ ia
 	\label{fig:cubaforzadoysensor}
 \end{figure}
@@ -193,20 +193,21 @@ Por último armamos con Manu para medir en la cuba grande como se ve en la foto:
 
 Usamos uno y dos motores, con dos de los obstáculos para romper los modos normales de la cuba y la barrera para evitar perder energía lejos del sensor, que pusimos con un perfil de aluminio lo más lejos de las paredes posible.
 
-Para los motores usamos uno de los forzados que ya estaban precargados, ya que no teníamos mucho tiempo. 
-
-\begin{figure}[th!]
+\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.87\linewidth]{"Figures/23_06_2025/Forzado de los motores"}
-	\caption{Curva del forzado ed los motores (tiempo total 30 s, 8192 puntos).}
+	\includegraphics[width=0.7065810257\linewidth]{"Figures/23_06_2025/Forzado de los motores"}
+	\caption{Curva del forzado de los motores (tiempo total 30 s, 8192 puntos).}
 	\label{fig:forzado-de-los-motores}
 \end{figure}
+
+
+Para los motores usamos uno de los forzados que ya estaban precargados, ya que no teníamos mucho tiempo. 
 
 Aunque en el futuro probablemente querramos usar amplitud constante entre 0 y 4 Hz (o ir variando hasta 5 o 6 Hz) en vez de ruido como ahora.
 
 \begin{figure}[th!]
 	\centering
-	\includegraphics[width=0.87\linewidth]{Figures/23_06_2025/Amplitud_constante}
+	\includegraphics[width=0.7065810257\linewidth]{Figures/23_06_2025/Amplitud_constante}
 	\caption{Próximos forzados a probar en el motor (Tiempo total 30 s, 8192 puntos). Es importante que sea periódica para evitar saltos en los motores.} % aa 
 	\label{fig:amplitudconstante}
 \end{figure}
@@ -219,12 +220,12 @@ Tomamos las siguientes mediciones para uno y dos motores prendidos:
 \end{itemize}
 
 
-\section{Viernes 27/06/2025} 
+\section{Viernes 27/06/2025}  
 Me centré en continuar con el análisis de los datos de la cuba grande del Miércoles pasado. Reescribí el código para nuevamente pasar los valores anteriores del filtro exponencial a la ventana siguiente, para así solo procesar de a pedazos el archivo completo, leyendo cada uno con memmap de numpy, y así no sobrecargar la memoria. Además como son millones y millones de puntos literalmente optimicé el filtro exponencial con numba para que no tarde tanto, al ser simplemente un loop.            
 
 \begin{figure}[th!]
 	\centering
-	\includegraphics[width=0.294567\linewidth]{Figures/23_06_2025/Salto_temporal_entre_ventanas}
+	\includegraphics[width=0.429567\linewidth]{Figures/23_06_2025/Salto_temporal_entre_ventanas}
 	\caption{Salto entre ventanas al analizar una medición larga con lock-in por partes.}
 	\label{fig:saltotemporalentreventanas}
 \end{figure}
