@@ -28,3 +28,209 @@ Entonces surgieron un par de ideas:
 	\caption{Comparación del lock-in que veníamos usando y de la resta entre las fases instantáneas de la de señal de interés con fase modulada y su referencia, luego de pasarles un pasabajos, con $f_c=100$ Hz. Dan exactamente lo mismo, incluso el ruido es lo mismo para frecuencias de corte más altas. Lo único que cambia es el punto medio pero no nos interesa tanto, acá resté la media a ambas.} % k 
 	\label{fig:hilbertcomolockin}
 \end{figure}
+
+
+\section{Miércoles 02/07/2025}
+
+
+\subsection*{Notas del día.}
+\begin{itemize}
+	\item Usar Hilbert para calcular el cos\_ref no evita el salto entre ventanas del procesamiento. Estaba usando otro archivo de lock-in, no el actualizado. Por ahí sí funciona bien paar estoa 
+	\item Parece haber un retraso en la señal de 6 segundos. Por eso es el salto, pero no me doy cuenta porqué. El memmap parece estar bien la unión entre bloques. Son 5 segundos de retraso y es porque en memmap hay que pasar el número de bytes que son 2, entonces el segundo bloque empieza un factor 2 atrás y básicamenge estuvimos repitiendo siempre los mismo datos. 
+	\item Yo esperaba un retraso de 16 que hubiese sido más evidente. Un retraso de la mitad también une bien los bloques de la referencia evidentemente. 
+	\item Parece que no hace falta aclarar en el final la cantidad de bytes sino sigue apareciendo otro solapammiento pero creo que para el otro lado. 
+	\item Bueno ahora se une suavemente más allás de 2 puntos más o menos.
+	
+	\item El espectro da lineal con pendiente -4 hasta 17 Hz (¿después menisco y longitud capilar?). 
+	
+	\item Cambié en tiempo real por Hilbert para la cuadratura y ya no hace esos saltos raros, pero sí sigue oscilando, vaya uno a saber porqué. En 50.474 kHz hay una. Hay otra en 50.596 Hz.
+	\item Afuera del agua resonancia es 53.457 kHz. Acercar mano a protoboard cambia 0.0005 rad.Y al sensor solo 0.0002 rad. 
+	\item Sumergido unos 5 cm bajó fase a -0.1356 rad. O bien resonancia cambió a 48.8 kHz.
+	\item Todo lo anteior el generador tenía un offset de 2.5 V, o sea tenía componente de continua. 
+	\item Parece haber además de la oscilación un drift en la fase a veces. 
+	
+	\item Voy a pasar a probar poner el otro DAQ como osciloscopio. 
+	\item No están implementadas las funciones de DAC en pyiotech, solo una de DC y las demás de ADC. 
+	\item Las armé con ChatGPT, no tira error pero se ve ruido en el sociloscopios. ¿Trigger/Tierras/Output?
+	
+	\item Cosas para chequear:
+	\begin{itemize}
+		\item Cálculo de cuadraturas Huang.
+		\item Window Fourier Transform. 
+		\item Estimar gas generado por hidrólisis. 
+		\item Excitar solo capilar. 
+	\end{itemize}
+	
+	\item Trim output multiplica la amplitud no estoy seguro porqué, a tener en cuenta. Porque cambia el N de la normalización 2/sqrt(N). Creo que ya lo corregí. 
+	
+	\item En 250 kHz hace cosas el lock-in. En 20 kHz pico local.  
+	\item Burbujiatas yendo hacia el alambre de acero. En línea con el de cobre. Se había roto la punta del alambre de cober por ahí hacía cosas raras por eso. 
+\end{itemize}
+
+\vspace{2em}
+\subsection*{Cuba grande.}
+Continué con el análisis de los datos para el forzado de 0-4 Hz en la cuba grande. Los problemas de unión entre ventanas se debían a que \textit{numpy.memmap} en el argumento \textit{offset} toma el número de bytes, en este caso 2 para enteros de 16 bits, con lo cual había un overlap.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.97\linewidth]{Figures/30_06_2025/Comparación_análisis_ventanas}
+	\caption{Overlap entre ventanas cuando no se multiplica el argumento \textit{offset} por 2.}
+	\label{fig:comparacionanalisisventanas}
+\end{figure}
+
+
+El análisis del espectro y PDF dieron muy parecidos habiendo corregido bien ya el análisis del locki-in.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.987\linewidth]{Figures/30_06_2025/Corregido_alturas_espectro}
+	\caption{Espectro para la tira de datos de altura en función del tiempo sin el overlap anterior. La frecuencia de corte es básciamente 17 Hz.}
+	\label{fig:corregidoalturasespectro}
+\end{figure}
+
+Una cosa importante es que acá siempre los dos motores estuvieron con los forzados en loops de 30 segundos. Para verificar si la señal mostraba estas repeticiones calculé la correlación entre el primer segmento de la medición con el resto.
+
+Ya a simple vista se notan partes de la señal que se repiten, y efectivamente la correlación muestras picos cada 30 segundos. Habría que intentar mandar una señal mucho más larga para que esto no pase y poder hacer bien estadística durante más de 30 segundos.
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.76581567\linewidth]{Figures/30_06_2025/Alturas_se_repitena_30_S}
+	
+	\includegraphics[width=0.688724681567\linewidth]{Figures/30_06_2025/Correlación.png}
+	\caption{Arriba alturas en función del tiempo, se nota una periodicidad de 30 segundos. Abajo la correlación de parte de la tira de datos con la primer sección de 30 segundos.}
+	\label{fig:alturasserepitena30s}
+\end{figure}
+
+
+%\vspace{2em}
+Por último revisé el ruido al dejar el medir el sensor con la superficie calma, que es lo siguiente:
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.87\linewidth]{Figures/30_06_2025/Ruido_cuba_grande_10_s_PLANO}
+	\caption{Ruido en la cuba grande.}
+	\label{fig:ruidocubagrande10splano}
+\end{figure}
+
+En general parece ser ruido blanco, plano en frecuencia. Si dejamos la subida del principio da una lineal de pendiente más o menos -1 en frecuencia al inicio (frecuencias bajas).
+
+\section{Viernes 04/07/2025}
+
+\subsection*{Notas del día.}
+\begin{itemize}
+	\item Se partió el alambre de cobre mientras lo tensionaba, lo cambié y volví a spray con el esmalte. Ahora que lo pineso también vaa terminar recubriendo al de acero, por ahí hace menos eficiente poner el agua a Tierra eso. 
+	\item También reduje el nivel de bucles donde se toca con el de acero. 
+	
+	\item Resonancia en aire 53.517 kHz. 
+	\item Fase aumenta al subir el tornillo, menos sumergido. 
+	\item Tornillo en 10 resonancia 51.960 kHz. 
+	\item Voy a hacer a el nuevo barrido con el tornillo.  
+	\item Vaso de plástico. 
+	\item - 20 ya está suelto. 
+	
+	\item Para saber si ruido es multiplicativo o aditivo excitar con el shaker una sola frecuencia y ver en Forier qué pasa.
+	
+	\item Voy a repetir calibración con tornillo y nueva agua destilada pero con resistencia de 0.356 k$\Omega$.   
+	\item Amplitud 10 Vpp para menos ruido por resistencia 6 veces más chica. 
+	\item Resonancia 51.555 kHz. Tornillo en 10. Aumentó el factor de calibración efectivamente, el 0 quedó en el extremo del tornillo no estoy muy seguro porqué. 
+	
+	\item Voy a probar con 47 pF de capacitancia más 360 Ohm. 
+	\item Frecuencia de resonancia 73.290 kHz en 10 del tornillo. 
+	\item Hago el abrrido de calibración. Parece que hay histéresis, dos barridos en 10 dieron distinto subiendo y bajando.
+	
+	
+	\item Vuelvo a capacitancia anterior. Resoanncia 51.480 kHz con tornillo en 10.
+	\item Voy a subir hasta 20 e ir bajando ahora. Dio efectivamente mucho más lineal. 
+	
+	\item Ahora voy bajar desde 20 y después subir de nuevo a 20. 51.471 kHz con tornillo en 10 antes de empezar. 
+	\item Tocar el tornillo da saltos de fase. 
+	\item Poner tornillo del tornillo a tierra parece evitar saltos de fase al tocar el sensor o partes cercanas como el soporte de perfiles de aluminio. 
+	\item Ahora sí barrido, tornillo a tierra 51.420 kHz tornillo en 10. Primero bajando y después subiendo con el \_0 extra en el nombre \item Ambas ramas se abren. Pasa algo claramente. 
+	
+	
+	\item Voy a bajar desde 20 dejar en 10 y tomar mediciones cada 5 segundos aproximadamente. Duró 02:26:47, 40 puntos . Estaba el output del generador apagado. 
+	\item Lo vuelvo a repetir . 03:16:01 para 40 puntos. Hay una tendencia a la baja. Cae aproximadamaente -0.003 y en el gráfico anterior había caído -0.005 aproximadamente. 
+	\item Las oscilaciones aparecen al analizar ventanas muy pequeñas, e intuyo que tiene que ver con los bordes de las mismas que van oscilando por algún motivo. Ver relación entre periodo de 50 kHz y 8192 puntos tal vez. 
+	
+	\item Agregamos varias gotas de PhotFlo. 51.374 kHz en tornillo en 10. Voy a hacer la calibración desde 20. Parecen pegarse efectivamente las curvas. 
+	
+	\item Voy a hacer los mismo pero con más PhotoFlo todavía, casi que el doble de antes o más. Ahora en 10 el tornillo resonancia en 51.206 kHz. 
+	\item Voy de 20 para abajo y viceversa . Paramos a charlar en 14\_5. 
+	\item Se pegan mucho más estando muy hundido. Tal vez mejor puesto a Tierra o el esmalte hace cosas raras cuando está poco hundido que está recubierto con eso, o más aislamiento. Probar recubrir todo el alambre tal vez. Probar llenar más el vaso. 
+	
+	\item Mismo todo que el último pero ahora de abajo para arriba y después al revés. 
+	
+	
+\end{itemize}
+
+\subsection*{Calibración con alambre más recto.}
+Para enderezar más el alambre y posiblemente que la calibración dé más lineal saqué el que estaba y puse uno nuevo más largo, de forma tal que se pueda tensionar enroscándolo en parte del soporte mientras está tirante. 
+
+La calibración para agua destilada dio así:
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.987\linewidth]{Figures/30_06_2025/Calibración_alambre_Recto}
+	\caption{Nueva calibración con el tornillo micrométrico para agua destilada en un vaso de plástico con un nuevo alambre de cobre en el sensor.}
+	\label{fig:calibracionalambrerecto}
+\end{figure}
+
+Sigue habiendo un pico en 10. Estuve probando varias cosas como cambiar la resistencia y el capacitor pero me di cuenta que el salto siempre estaba en 10 y las otras regiones parecían lineales. 
+
+Probé en vez de empezar en 10 empezar en 20 e ir para abajo sin volver para atrás ya que parecía que al bajar y subir o viceversa había un salto. \textbf{A partir de ahora pasé a usar una resistencia de 360 k$\Omega$.}
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.765598\linewidth]{Figures/30_06_2025/Calibración_alambre_Recto_360Ohm_Bajando}
+	\caption{Calibración solo bajando.}
+	\label{fig:calibracionalambrerecto360ohmbajando}
+\end{figure} 
+
+Efectivamente ahora es mucho más lineal que antes y no pega el salto en 0, con lo que debe ser que no se pegan los puntos al ir y volver con el tornillo.
+
+Los parámetros del ajuste fueron: $R^2=0.99829$,	$\chi_\nu^2=20.23005$,	$m = (0.00394 \pm 0.00003)\; mm/°$,	$b = (-0.0265 \pm 0.0002)\; mm$. 
+
+
+
+\subsection{¿Histéresis en el sensor?}
+Empecé a hacer pruebas para ver qué era lo que estaba pasando. Básicamente primero bajar el alambre e inmediatamente después empezar a subirlo, y ambas ramas no se pegan. 
+
+
+
+
+\begin{figure}[!ht]
+	\begin{minipage}[c]{0.325\textwidth}
+		\begin{subfigure}{\textwidth}
+			\centering
+			\includegraphics[width=0.98\textwidth]{Figures/30_06_2025/1Sin_PhotoFlo.png}
+		\end{subfigure}
+	\end{minipage}\begin{minipage}[c]{0.3249\textwidth}
+		\begin{subfigure}{\textwidth}
+			\centering
+			\includegraphics[width=0.98\textwidth]{Figures/30_06_2025/2PhotoFlo.png}
+		\end{subfigure}
+	\end{minipage}\begin{minipage}[c]{0.3249\textwidth} %&} 
+		\begin{subfigure}{\textwidth}
+			\centering
+			\includegraphics[width=0.98\textwidth]{Figures/30_06_2025/3Mucho_PhotoFlo.png}
+		\end{subfigure}
+	\end{minipage}
+	\caption{Calibración del sensor primero bajándolo y luego subiéndolo para cantidades crecientes de PhotoFlo en el agua hacia la derecha. } % Hola 
+	\label{fig:calibración_histéresis}
+\end{figure} 
+
+Probamos por si fuese el menisco agregar PhotoFlo y se empezaron a pegar las curvas. 
+
+\subsection*{Referencia contra referencia.} 
+Medí el ruido del lock-in y setup midiendo la referencia en el canal 1 y 2. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.67658\linewidth]{Figures/07_07_2025/Ruido_referencia_contraa_referencia}
+	\caption{Medición de referencia en canal1 y misma referencia en canal 2, analizada con el lock-in con frecuencia de corte de 1 Khz.}
+	\label{fig:ruidoreferenciacontraareferencia}
+\end{figure}
+
+Acá no aparecen los picos importantes en 100 Hz, 200 Hz, etcétera. Debe ser algo del RLC tal vez, o del propio sensor sumergido. 
+
+
