@@ -1,4 +1,5 @@
 \entry{Semana del 14/07/2025} 
+\section{Lunes 14/07/2025.} 
 \subsection*{Notas del día:}
 \begin{itemize}
 	\item Parece que medir el canal 1 sin el 0 da ruido. 
@@ -20,11 +21,12 @@ Seguí completando los métodos para determinar rápidamente la frecuencia de re
 	A(f) = \frac{A_0}{\sqrt{1 + Q^2 \left(\frac{f}{f_0}-\frac{f_0}{f}\right)^2}} + B 
 \end{equation}
 
+
 Donde $Q$ va a ser el factor de calidad y $f_0$ la frecuencia de resonancia. En general el método parece funcionar bastante bien, lo único que no me convence es que la frecuencia de resoanncia praece estar corrida (da cerca de 56 Khz y debería dar 52 kHz según los métodos previos que venía usando). 
 
 \begin{figure}[th!]
 	\centering
-	\includegraphics[width=0.87\linewidth]{Figures/14_07_2025/Ajuste_ruido_balnco}
+	\includegraphics[width=0.7258\linewidth]{Figures/14_07_2025/Ajuste_ruido_balnco}
 	\caption{Ajuste de la respuesta en frecuencia del RLC serie con el sensor sumergido al ruido blanco por una Lorentiziana.}
 	\label{fig:ajusteruidobalnco}
 \end{figure}
@@ -72,9 +74,83 @@ Después por último intenté configurar el generador de funciones en modo sweep
 \subsection*{Calibración con el wavedriver - Montaje.} 
 Hoy ya sí monté para calibrar el sensor con el Wave - Driver. Básicamente con se ve en la foto tengo montado en uno de los perfiles de la cuba el motor vertical con uno de los soportes que hicimos el año pasado paar los toroides, cuyo tamaño era perfecto para que entrase un recipiente con agua destilada (la tapita del spray aislante). Luego tengo sobre la mesa el sensor sobre su soporte común de perfiles de aluminio. 
 
+
+\begin{figure}[!ht]
+	\begin{minipage}[c]{0.5\textwidth}
+			\begin{subfigure}{\textwidth}
+					\centering
+					\includegraphics[angle=-90, width=0.568\textwidth]{Figures/14_07_2025/Setup_completo.jpg}
+					\captionsetup{width=0.568\textwidth}
+					\subcaption{Setup Completo.}
+				\end{subfigure}
+		\end{minipage}\begin{minipage}[c]{0.49\textwidth}
+			\begin{subfigure}{\textwidth}
+					\centering
+					\includegraphics[angle=-90, width=0.568\textwidth, ]{Figures/14_07_2025/Zoom_agua.jpg}
+					\captionsetup{width=0.8\textwidth}
+					\subcaption{Zoom al recipiente.}
+				\end{subfigure}
+		\end{minipage}
+	\caption{Setup para realizar la calibración de sensor con el wave-driver.}
+	\label{fig:setup_calibración_wave_driver}
+\end{figure}
+
 El procedimiento que estoy usando para medir es el siguiente: Primero hago el homing, después doy a que empiece la curva que tiene precargada el motor y recién ahí agrego el recipiente con agua (o como mucho antes justo después del homing) y coloco el sensor para asegurarme de que no choque con el fondo. Para esto tuve que probar distintos homings y usar el tornillo para el ajuste final. La tapa tendría un par de centímetros de agua destilada. 
 
+\subsection*{Rampas.} 
+Primero analicé rampas, ya sea de 0 a 10 mm o de -10 a 10 mm que es lo que está más abajo, con distintas duraciones. Si fuese muy lento siento que el motor da más ruido y si es muy rápido aparecen oscilaciones en la superficie libre. 
 
+Acá está lo que midió el sensor. Parece haber un drift lento que saturaría hacia el final: 
+ 
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.987\linewidth]{Figures/14_07_2025/Rampa_sym_10s}
+	\caption{Rampa entre -10 mm y 10 mm de altura con el motor en una duración de 10 segundos la ida y vuelta completa.}
+	\label{fig:rampasym10s}
+\end{figure}
+
+
+Agarré cada segmento y los superpuse invirtiendo el tiempo de las bajadas y manteniendo continuidad. 
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.987\linewidth]{Figures/14_07_2025/Rampas_superpuetas}
+	\caption{Superposición de los distintos segmentos de la rampa simétrica anterior.}
+	\label{fig:rampassuperpuetas}
+\end{figure}
+
+
+Parece que efectivamente satura el drift hacia el final ya que se empiezan a superponer los segmentos, pero sigue habiendo separación entre ramas. 
+
+Podría probar hacer la calibración en vez de con una rampa con algo por pasos para que no estén las oscilaciones en el agua hacia el final. 
+
+Por último para un período de 1 segundo aparecen oscilaciones montadas de 16 Hz (y en el espectro aparecen picos también en todos los múltiplos de 1 Hz, pero 16 Hz especialmente grande el pico). 
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.87\linewidth]{Figures/14_07_2025/rampa_sym_1s_oscilaciones_rápidas}
+	\caption{Oscilaciones rápidas en la rampa de período 1 segundo.}
+	\label{fig:rampasym1soscilacionesrapidas}
+\end{figure}
+
+% \vspace{2em} 
+
+\subsection*{Otros movimientos.} 
+Para un forzado con amplitud constante en frecuencia hasta 1 Hz y fase aleatoria de duración 10 segundos los resultados son los siguientes:
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.87\linewidth]{Figures/14_07_2025/Curva_max_1Hz_bien_1}
+	
+	\includegraphics[width=0.87\linewidth]{Figures/14_07_2025/Curva_max_bien_1Hz_2} % 1 
+	
+	\caption{Señal medida con el sesnor comparada con la que tenía cargada el motor, el mínimo son -6 mm y el máximo unos 4 mm. Arriba el primer segmento y abajo el segundo. El salto en 10 y 20 segundos es la unión entre ventanas de análisis. }
+	\label{fig:curvamax1hzbien1}
+\end{figure}
+
+Para cada segmento coincide muy bien lo que mide el sensor con la curva que está haciendo el motor. Sí parece haber un drift lento, no sé si saturaría con más tiempo o seguiría, pero esto debería afectar a frecuencias bajas únicamente en el análisis espectral, y cada segmento corto ajusta bien con los datos.
+
+Probé otros forzados de más frecuencia, amplitud y tiempo pero no los analicé todavía. 
 
 
 \section{Jueves 17/07/2025.}
