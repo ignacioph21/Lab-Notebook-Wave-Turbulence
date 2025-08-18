@@ -158,12 +158,10 @@ El procedimiento para descargar todo en Windows 10 sería:
 \begin{itemize}
 	\item Descargar DaqView para los drivers desde la páina de Digilent. 
 	\item Ejecutar la intalación.
-	\item Clonar el repositorio de Github de PYIOTech: "https://github.com/fake-name/PyIOTech".
+	\item Clonar el repositorio de Github de PYIOTech: "\url{https://github.com/fake-name/PyIOTech}".
 	\item Seguir las instrucciones de instalación, corriendo el "python setup.py install" desde el directorio donde se clonó el repositorio.
-	\item Buscar la ubicación del paquete instalado, en mi caso: ``C:/Users/Marcelo/AppData/Local/Programs/
-	
-	Python/Python310/Lib/site-packages/PyIOTech". % " 
-	\item Abrir daq.py y cambiar la ubicación del .dll según donde se haya instalado DaqView. En mi caso: ``C:/Program Files (x86)/DaqX/Drivers/USB\_x64". % " 
+	\item Buscar la ubicación del paquete instalado, en mi caso: ``\url{C:/Users/Marcelo/AppData/Local/Programs/Python/Python310/Lib/site-packages/PyIOTech}". % " 
+	\item Abrir daq.py y cambiar la ubicación del .dll según donde se haya instalado DaqView. En mi caso: ``\url{C:/Program Files (x86)/DaqX/Drivers/USB\_x64}". % " 
 	\item Cambiar entonces la línea "dll = find\_library('daqx')" por "dll = r``C:/Program Files (x86)/DaqX/
 	
 	Drivers/USB\_x64/DaqX64.dll"". IMPORTANTE: Asegurarse de usar el .dll de 64 bits porque el de 32 bits tira error (no es compatible con Python de 64 bits). % " 
