@@ -4,3 +4,94 @@
 \begin{itemize}
 	\item De momento me estoy concentrando  en actualizar el cuaderno de laboratorio, que no escribo hace un par de semanas. 
 \end{itemize}
+ 
+\section{Miércoles 23/07/2025} 
+\subsection*{Notas del día:}
+\begin{itemize}
+	\item Voy a seguir calibrando con el motor el sensor. Continúo con las mismas condiciones de Setup de la vez pasada. 
+	\item Quiero empezar con una rampa escalonada para sacar las vibraciones pero hacer entre -10 y 10 mm con paso de 0.5 mm en 20 segundos ida y vuelta hace que vibre mucho y no le da tiempo a disipar, va a tener que ser bastante más lento me parece. A parte el brazo del toroide agrega vibraciones longitudinales.   
+	\item Pruebo con 60 segundos el ciclo completo que parece funcionar bastante mejor. No sé si los 0.5 mm de resolución los puede manejar el motor. 
+	\item La frecuencia es la misma que quedó de la vez pasada al final (52.040 kHz). 
+	\item Parece funcionar mejor cuando no toca el borde y está "bastante" sumergido el alambre (no solo la punto apenas). 
+	
+	\item Parece que sigue en general bastante bien a la curva, no sé si los saltos se alinean perfectamente, por ahí no dura exactamente 60 segundos la curva. 
+	
+	\item Ahora voy a tomar rampa simétrica de 8 segundos muchos ciclos, suponiendo que no haya las oscilaciones de 16 Hz. No hay casi vibraciones en la superficie libre.  
+	\item Tengo que acordarme de medir el ruido con el sesnor sumergido (en posición home) para tratar de caracterizar el drift. 
+	\item Efectivamente está el drift. 
+	
+	\item Tomo con el sensor no sumergido y no conectado. 
+	
+	\item Está siempre, parece ser algo de la placa, ya que empieza cuando empieza la medición, si tomo de la mitad de los archivos para adelante no está el salto inicial, si fuese un transitorio del lock-in debería estar igualmente empiece donde empiece. Habrá que dejar la placa adquiriendo un rato antes de empezar a tomar los datos. 
+	\item Puede que sea el trim\_output ya que antes de aplicarlo no parece estar. O sí pero solo un poco. Solo sube 0.0021 respecto antes que subí 0.02 me parece. Varía de 0.003 a 0.05. Un orden de magnitud. 
+	
+	\item Volver a analizar las cosas previas con eso arreglado de alguna manera. Probablemente subsampleando sea la otra alternativa. 
+	\item Me parece que ajusta mejor ahora y se solapan más hacia el final de la medición, pero creo que sigue siendo un poco distinto subida de bajada, y se separa más cuando está poco sumergido. 
+	
+	\item No estoy del todo seguro si el pequeño retraso temporal es porque el motor lo introduce o bien porque por fenómenos de mojado el sesnor actúa extraño. 
+	\item Mandar un seno, la cuestión es que sería rápido y produciría vibraciones, y lento tendría la misma duda de antes. 
+	
+	\item Cosas para hacer: 
+	\begin{itemize}
+			\item Equivalente Thevenin e impedancia y qué sería, RL, RC y cuánto son. 
+		\item Probar la NIDAQ. 
+		\item Medir playa, 1D y en cuba chica. Surf zone. Ir aumentando amplitud y frecuencias del forzado. 
+	\end{itemize}
+\end{itemize} 
+
+\subsection*{Rampa escalonada.} 
+Empecé midiendo la rampa escalonada para evitar las oscilaciones de motor al moverse (que como el soporte está lejos del mismo se amplifican mucho), y darle tiempo al agua a relajarse entre paso y paso. El resultado fue el siguiente. 
+
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.87\linewidth]{Figures/21_07_2025/Rampa_escalonada}
+	\caption{Rampa escalonada medida con el sensor.}
+	\label{fig:rampaescalonada}
+\end{figure}
+
+
+En general parece funcionar bien, sin embargo algunos saltos (que deberían ser todos de 0.5 mm) parecen ser más grandes que otros. Puede que sea la inercia del motor al moverse que se pasa un poco o su propia resolución. 
+
+\subsection*{Rampa.} 
+
+Volví a las rampas simétricas de la vez pasada. Ahora dejé la medición durante mucho más tiempo para sacar el transitorio inicial. La parte estacionaria a ojo la ajuste con una rampa y dio muy bien. 
+
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.87\linewidth]{Figures/21_07_2025/Rampa_simétrica_ajustada}
+	\caption{Varios ciclos en el "estacionario" para una rampa simétrica de 8 segundos de duración y amplitud de -10 a 10 mm. Se muestra también el ajuste por una rampa de los datos.}
+	\label{fig:rampasimetricaajustada}
+\end{figure}
+
+
+Cosas a resaltar: 
+\begin{itemize}
+	\item La duración/período de la rampa es de 8.062 s, un poco más larga que la que le pedí al motor de 8 s, pero como es constante me inclino más a pensar que no es que el sensor atrasa sino que el motor trabajó con ese tiempo. Parece que se le puede pedir el feedback para saber exactamente cómo se movió. 
+	\item Parece funcionar mucho mejor el sensor (y super lineal) cuando su punta está muy sumergida, o sea, lejos de la superficie libre (y probablemente también del fondo). Podría ser que justo esa zona del alambre de más lineal de por sí, pero en general me dio la sensación de que funciona mejor estando más sumergido. 
+\end{itemize}
+
+
+\subsection*{Drift con el RLC.}
+Estuve notando que siempre al inicio de las mediciones parece haber un transitorio. Originalmente pensaba que sería el del lock-in, pero éste debería durar del orden de $1/f_c$ que es muy rápido, mientras que el observado dura hasta 10 segundos aproximadamente. 
+
+Empecé a hacer pruebas para saber si era el sensor. Medí con el sensor sumergido sin mover el agua, sin sumergir, y completamente desconectado (dejando solo el RLC), y apareció el transitorio en todos los casos. 
+
+Por otro lado, de las mediciones del viernes 04/07 podíamos ver que referencia contra referencia no lo tiene presente. Asumo que debe ser un comportamiento relacionado al RLC. 
+
+
+Además parece ser algo que arranca con el inicio de la medición, no con el inicio del procesado de datos. Ya que si corto los datos registrados, y empiezo a procesar por ejemplo a partir de 10 segundos, no se ve ese transitorio. Se exagera mucho más haciendo el trimming en la fft. 
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.87\linewidth]{Figures/21_07_2025/Drfit_sensor_no_conectado}
+	\caption{Medición para el sensor desconectado, donde se ve el drift al inicio, y su respuesta espectral correspondiente.}
+	\label{fig:drfitsensornoconectado}
+\end{figure}
+ 
+
+
+
+
+ 
