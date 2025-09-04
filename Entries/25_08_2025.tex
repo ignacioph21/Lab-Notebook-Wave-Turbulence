@@ -264,6 +264,8 @@ Y en todos los casos por función de estructura de orden $p$ estoy usando su def
 \subsubsection*{PDFs de las $\Delta\eta$.} 
 Para estas realicé las PDFs por ventanas de la serie temporal (de 60 segundos con un 75 \% de overlap) y después las promedié todas. En todos casos está normalizado por la desviación estándar y tienen media 0. 
 
+En primer lugar calculé las PDFs usando las primeras diferencias, que es lo que se ve más abajo. Sin embargo, como el espectro es muy empinado, éstas deberían ser poco informativas. En general esto parece ser cierto, ya que para todos los juegos de datos resultan ser Gaussianas más allá del tiempo de delay.
+
 \begin{figure}[!ht]
 	\begin{minipage}[c]{0.32335\textwidth}
 			\begin{subfigure}{\textwidth}
@@ -287,9 +289,12 @@ Para estas realicé las PDFs por ventanas de la serie temporal (de 60 segundos c
 				\subcaption{Banda 0-6 Hz, amplitud 50 \%.}
 			\end{subfigure}
 		\end{minipage}
-	\caption{Primeras diferencias para distintas mediciones y tiempos de delay $\tau$.}
+	\caption{Primeras diferencias para distintas mediciones y tiempos de delay $\tau$. Curvas shifteadas verticalmente para claridad.}
 	\label{fig:primeras_diferencias_pdfs}
 \end{figure}   
+
+Las segundas diferencias sí deberían ser un buen estimador estadístico, y vemos que para el juego de datos en la banda de 0 - 6, que es el de mayor potencia inyectada efectivamente, vemos que cuanto menos tiempo de delay más plana es la PDF. Al hacerse las colas más pesadas esto implica la existencia de eventos extremos, en particular está inclinada hacia las alturas positivas (Hay que multiplicar por $-$ la fase del sensor para que sea proporcional a la altura con el mismo signo), con lo cual 
+las crestas serían más probables que los valles, que se debería ver directamente de la medición. 
 
 \begin{figure}[!ht]
 	\begin{minipage}[c]{0.32335\textwidth}
@@ -314,13 +319,22 @@ Para estas realicé las PDFs por ventanas de la serie temporal (de 60 segundos c
 			\subcaption{Banda 0-6 Hz, amplitud 50 \%.}
 		\end{subfigure}
 	\end{minipage}
-	\caption{Segundas diferencias para distintas mediciones y tiempos de delay $\tau$.}
+	\caption{Segundas diferencias para distintas mediciones y tiempos de delay $\tau$. Curvas shifteadas verticalmente para claridad.}
 	\label{fig:segundas_diferencias_pdfs}
 \end{figure} 
 
+Para delay mayores al tiempo de correlación de la señal la PDF se vuelve prácticamente Gaussiana. 
 
 \subsubsection*{Tiempo de correlación y funciones de estructura.}
-Acá para hacer el promedio temporal no usé ventanas como antes sino que usé la serie temporal completa directamente, de unos 4 minutos sampleada a 2 kHz.
+Para ver el tiempo de correlación podemos calcular en cada caso la kurtosis o flatness, que debería tender a 3 a medida que la PDF se va convirtiendo en gaussiana. La definimos a partir de las funciones de estructura: 
+
+\begin{equation}
+	\text{Flatness}(\tau) = \frac{S_4(\tau)}{S_2^2(\tau)} 
+\end{equation}
+
+Acá para hacer el promedio temporal no usé ventanas como antes sino que usé la serie temporal completa directamente, de unos 4 minutos sampleada a 2 kHz. 
+
+El tiempo de correlación lo estimé ajustando el flatness por una lineal, asumiendo una ley de potencias, y viendo cuando se cruza con 3. Esto es el primer subplot de las siguientes Figuras, para las primeras y segundas diferencias.
 
 \begin{figure}[th!]
 	\centering
@@ -329,7 +343,6 @@ Acá para hacer el promedio temporal no usé ventanas como antes sino que usé l
 	\label{fig:primerasdiferenciasfuncionesdeestructura06hz50}
 \end{figure} 
 
-
 \begin{figure}[th!]
 	\centering
 	\includegraphics[width=0.87\linewidth]{Figures/25_08_2025/Segundas_diferencias_Funciones_de_estructura_0_6Hz_50}
@@ -337,9 +350,15 @@ Acá para hacer el promedio temporal no usé ventanas como antes sino que usé l
 	\label{fig:segundasdiferenciasfuncionesdeestructura06hz50}
 \end{figure}
 
-Por análisis dimensional muestran en \cite{falconObservationIntermittencyWave2007} que la pendiente del \textit{flatness} debería ser $\alpha$ = 4 $c_2$ que si bien no se cumple exactamente da bastante cerca. 
+El tiempo de correlación $\tau_c$ me da del orden de 50 ms, aunque para las primeras diferencias siempre está en torno a 3 para las segundas cambia un orden de magnitud, correspondiéndose con lo que se veía en las PDFs. A diferencia de lo que muestra \cite{falconObservationIntermittencyWave2007} yo tengo un rango (menor a 10 ms) donde no va lineal, y en el rango mayor a $\tau_c$ parece tener un overshoot, y no se estanca completamente. 
 
-\subsubsection*{Exponentes de las funciones de estructura.}
+Podemos probar con funciones de estructura usando diferencias de más puntos, cuanto más puntos, más derivadas te saca. Para todos es fácil cuenta que sacan la media (suponiendo $\eta(t)+\eta_0$), pero además las segundas diferencias te sacan la media de la derivada y así en adelante. Por ahí por el drift convenga hacer esto con nuestros datos. 
+
+En el rango de capilaridad (con $\tau$'s entre 10 y 60 ms) vemos que las funciones de estructura escalan con una ley de potencias, también ajustadas. Faltaría calcular el error en cada pendiente. Da mejor el ajuste lineal ajustando linealmente los datos habiéndolos convertidos a escala logarítmica que el ajuste no lineal por una ley de potencias tipo $S_p(\tau)\sim C\tau^\zeta$. No necesité shiftear verticalmente las $S_p$ para claridad.
+
+\subsubsection*{Exponentes de las funciones de estructura.} 
+Podemos ver que los exponentes de las funciones de estructura dependen del exponente, o sea, $\zeta=\zeta(p)$, tanto para las primeras como para las segundas diferencias.  
+
 \begin{figure}[!ht]
 	\begin{minipage}[c]{0.5\textwidth}
 		\begin{subfigure}{\textwidth}
@@ -360,6 +379,19 @@ Por análisis dimensional muestran en \cite{falconObservationIntermittencyWave20
 	\label{fig:potenicas_segun_funcion_de_Estructura}
 \end{figure} 
 
+Ajustamos estos exponentes por una primera aproximación cuadrática de la forma: 
+
+\begin{equation}
+	\zeta(p) = c_1 p - \frac{c_2}{2} p^2
+\end{equation}
+
+Donde $c_2\neq0$ es un fuerte indicador de estadísticas no gaussianas e intermitencia, como se nota especialmente para las segundas diferencias. Teóricamente para Weak Wave Turbulence por análisis dimensional deberían escalar linealmente con pendiente $11/12$ para las primeras diferencia y $3/2$ para las segundas. 
+
+Siempre las primeras funciones de estructura dan sobre la lienal más o menos esperada. 
+
+
+
+Por análisis dimensional muestran en \cite{falconObservationIntermittencyWave2007} que la pendiente del \textit{flatness} debería ser $\alpha$ = 4 $c_2$ que si bien no se cumple exactamente da bastante cerca. 
 
 
 
