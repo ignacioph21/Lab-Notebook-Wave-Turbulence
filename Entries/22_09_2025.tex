@@ -36,7 +36,31 @@ Voy a empezar a hacer pruebas usando dos sensores en simultáneo. Un par de cosa
 	\item Se esmalta también parte del alambre de acero, lo que puede hacer que no se ponga bien a Tierra el agua. Cosas que se podrían hacer es raparlo con el alicate o con fuego para sacar ese nuevo esmalte. También se podría intentar esmaltarlo completamente a propósito y ver como afecta. Igualmente imagino que si está lo suficientemente sumegido como para llegar a la parte que no se esmaltó debería estar bien.  
 \end{itemize}
 
-Ya tengo todo montado, quedó bastante compacto. Para tener en cuenta: 
+Ya tengo todo montado, quedó bastante compacto. Más abajo detalle de la disposición de los sensores y la paleta del motor y de las conexiones de la ProtoBoard por las dudas.  % b 
+
+\begin{figure}[!ht]
+	\begin{minipage}[c]{0.5\textwidth}
+		\begin{subfigure}{\textwidth}
+			\centering
+			\includegraphics[width=0.958\textwidth]{Figures/22_09_2025/Setup montaje.jpg}
+			\captionsetup{width=0.8\textwidth}
+			\subcaption{Sensores sumergidos.}
+			% \label{fig:}
+		\end{subfigure}
+	\end{minipage}\begin{minipage}[c]{0.49\textwidth}
+		\begin{subfigure}{\textwidth}
+			\centering
+			\includegraphics[width=0.958\textwidth]{Figures/22_09_2025/Conexiones montaje.jpg} 
+			\captionsetup{width=0.8\textwidth}
+			\subcaption{Conexiones.}
+			% \label{fig:}
+		\end{subfigure}
+	\end{minipage}
+	\caption{Montaje experimental para la prueba de utilización de dos sensores en el montaje de turbulencia de ondas.} 
+	\label{fig:montaje_dos_sensores_cuba_chica}
+\end{figure}
+
+Para tener en cuenta algunos detalles de mientras fui armando todo: 
 
 \begin{itemize}
 	\item Estoy usando para los dos circuitos RLC nuevos componentes (de valores R=360 $\Omega$, L=10 mH y C=560 pF como veníamos usando). 
@@ -48,6 +72,8 @@ Ya tengo todo montado, quedó bastante compacto. Para tener en cuenta:
 \end{itemize} 
 
 Para poder normalizar las señales y que no haya constantes dando vueltas a la hora de hacer la correlación (sino después normalizar con la raíz de la autocorrelación cuadrada) voy a tomar dos mediciones de la superficie estática en alturas distintas mientras lleno. 
+
+
 
 Los puntos de referencia durante el llenado fueron 4.05 cm de la altura 1 (esta no estoy 100 \% seguro y tomé solo dos canales). 5.05 cm altura 2 y 5.50 cm para la altura 3 (Habría que usar estas dos). Para la 3 llené un poco más usando el vaso de precipitados de plástico. 
 
