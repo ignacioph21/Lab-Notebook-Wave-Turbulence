@@ -51,7 +51,7 @@ Ya tengo todo montado, quedó bastante compacto. Más abajo detalle de la dispos
 		\begin{subfigure}{\textwidth}
 			\centering
 			\includegraphics[width=0.958\textwidth]{Figures/22_09_2025/Conexiones montaje.jpg} 
-			\captionsetup{width=0.8\textwidth}
+			\captionsetup{width=0.8\textwidth} 
 			\subcaption{Conexiones.}
 			% \label{fig:}
 		\end{subfigure}
@@ -122,6 +122,27 @@ Una posible explicación sería que se acoplen al movimiento de la superficie os
 Además resta calcular la correlación entre ambas señales. Deberíamos esperar ver una réplica luego de un tiempo correspondiente al de viaje de una onda de la frecuencia fundamental (tipo 4 Hz el pico principal) en la distancia entre alambres (de 8 cm). Esperaríamos que en esa distancia no afecten tanto los efectos dispersivos.    
 
 
+\section{Miércoles 24/09/2025.} 
+
+Un par de cosas que quedaron pendientes revisar la vez pasada. Por un lado las señales de cada sensor, normalizadas por la desviación estándar y sin media: 
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.567\linewidth]{"Figures/22_09_2025/Señales temporales"}
+	\caption{Señales de los dos sensores.}
+	\label{fig:senales-temporales}
+\end{figure}
+
+Para esto subsamplee la señal a un quinto de los puntos, ya que sino tenía bastante ruido (supongo por los picos raros a frecuencias altas, que de momento por las estimaciones darían tensiones del orden de 0.1-1 N que parecen consistentes). 
+
+Además las PDFs que siguen dando como deberían: 
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Figures/22_09_2025/PDFS_sensores_0_6_Hz}
+	\caption{PDFS de las señales de los dos sensores.}
+	\label{fig:pdfssensores06hz}
+\end{figure}
 
 
   
