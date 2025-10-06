@@ -146,6 +146,19 @@ Además las PDFs que siguen dando como deberían:
 	\label{fig:pdfssensores06hz}
 \end{figure}
 
+\subsection*{Correlación cruzada entre sensores.} 
+Lo que hice acá fue tomar una ventana de la señal del primer sensor $h_1$ y calcular su correlación con otra más larga de $h_2$, ambas arrancando en el mismo punto. Después fui moviendo las ventanas manteniendo su longitud constante y asegurándome que empiecen siempre en el mismo índice y calculé el promedio de todas esas correlaciones, que es lo siguiente: 
 
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.87\linewidth]{Figures/22_09_2025/Correlación_ventana_h1_vs_h2}
+	\caption{Correlación de $h_1$ vs $h_2$.}
+	\label{fig:correlacionventanah1vsh2}
+\end{figure}
 
+Hay un pico cuando el desfasaje entre señales es 0 y después otro más pequeño a los 0.57 s que podría ser de una onda que viaja entre ambos sensores. 
+
+ 
+  
+  
   
