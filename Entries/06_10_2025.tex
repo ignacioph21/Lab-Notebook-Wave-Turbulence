@@ -28,5 +28,142 @@ Estuve charlando con Julián para usar la derivada logarítmica como parámetro 
 
 Lo único que no termina de convencer, por lo menos con los parámetros que probé, es que necesito ventanas para ajustar bastante grandes, y de por sí suavizar el espectro.  
  
+\section{Miércoles 08/10/2025.} 
+Estuvimos probando varias cosas con el fin de poder alimentar al motor con una señal analógica que se mapee a una posición y de esta forma poder usar un forzado continuo que no se repita nunca. 
+
+\subsection*{Posición analógica del motor.}
+La versión del driver para los servo motores que hay en el Labo son los E100-RS. No hay mucha información sobre otros modos de uso que no sea el "continuous curve´´ pero según el manual debería ser posible:  
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Figures/06_10_2025/Servo_analog_position}
+	\caption{Información sobre posición analógica del manual para el E1100-RS.}
+	\label{fig:servoanalogposition}
+\end{figure} 
+
+Debería mapear la señal del pin x4.4 de entre 0 y 10 V a una posición. Además buscando un poco más, en el drive datasheet, dice que opera entre 1 y 5 mA, con lo que habría que tener cuidado de no pasarse de esto.  
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.7612517\linewidth]{Figures/06_10_2025/Servo_x4_pins}
+	\caption{Especificaciones para los pins X4 del driver.}
+	\label{fig:servox4pins}
+\end{figure} 
+
+En manules para otros drivers de la marca encontré que tienen una impedancia de entrada de entre 10 y 100 k$\Omega$, aunque la datasheet de antes dice que tiene 4.7 k$\Omega$ cuando está siendo usado como IO digital. 
+
+Lo que decidimos hacer fue una prueba con una fuente VDC Keithley 2231A-30-3, limitando en corriente para asegurarnos de no subir de los 5 mA. Además usamos el canal de 5 V para estar seguros de no pasarnos del voltaje tampoco. 
+
+En cuanto al software de LinMot Talk las configuraciones pertinentes son las siguientes: 
+\begin{itemize} 
+	\item Motion Control SW 
+	\begin{itemize}
+		\item Drive Configuration 
+		\begin{itemize}
+			\item X4 I/O Configurations 
+			\begin{itemize}
+				\item I/O X4.4 function: Position  
+				\item Analog In X4.4: Configurar a qué posición se mapea (linealmente) 0 y 10 V. 
+			\end{itemize}
+		\end{itemize} 
+		\item Motion Interface 
+		\begin{itemize}
+			\item Run Mode Settings 
+			\begin{itemize}
+				\item Run Mode Selection: analog 
+			\end{itemize}
+		\end{itemize} 	
+	\end{itemize}
+\end{itemize} 
+
+La conexión de los cables de la fuente fue la siguiente: 
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.51467\linewidth]{Figures/06_10_2025/Conexiones_en_el_motor}
+	\caption{Conexiones de la fuente en el driver del motor para la configuración de analog position. El voltaje va en el pin X4.4 y la Tierra en el primero (GND) con la otra Tierra que ya tiene de entrada.}
+	\label{fig:conexionesenelmotor}
+\end{figure}
+
+
+Y la prueba consisitió en homear el motor y luego dejarlo corriendo. Al varia Pablo el voltaje de la fuente vimos efectivamente que el motor se movió, en la dirección del cambio (al subir el voltaje subía y al bajarlo bajaba). Queda pendiente repetir la prueba revisando lo que reporta e oscilosocpio de la aplicación sobre la posición actual y la demandada, como así también la corriente. Además lla corriente parece no haber llegado nunca a 1 mA ya que la pantalla de la fuente siempre marcó 0.000 A. 
+
+Notamos que hacía un ruido fuerte al quedarse quieto. Parece que se debía a los parámetros del PID que estaban en stiff, y al ponerlos en soft dejó de hacerlo (aunque en ciertas posiciones cuando no llega exactamente sí lo sigue haciendo de todas formas). % i  
+
+La idea para lo siguiente va a ser usar opamp como limitador de corriente para usar la salida de la DAQ para alimentar el motor (aunque de todas formas parece que la DAQ, por lo menos según su datasheet, da en el output 1 mA, y 10 mA máximo al estar conectado a la potencia externamente). 
+ 
+\subsection*{Generar señal analógica de ruido.} 
+Una de las partes importantes va a ser generar una señal analógica entre 0 y 10 V de ruido limitado en banda de frecuencia, ya sea en tiempo real, o de una longitud suficientemente larga como para que no se llegue a repetir nunca.
+
+Para esto mi primera idea fue usar directamente un Arduino, sin embargo, no cuentan con una salida analógica, solo con salidas digitales tipo PWD. 
+
+
+Podríamos pensar en usar la función de ruido del generador de funciones pero tiene varias complicaciones. El ruido del generador es ruido blanco (no limitado en frecuencia), con lo cual habría que poner un filtro-pasabajos analógico que nos sacaría mucha amplitud (con lo cual habría que poner un amplificador) y sería muy poco flexible. Además no podríamos asegurarnos fácilmente que la corriente de ese circuito sea del orden de 1-5 mA que es lo que pide el motor. 
+
+La única alternativa que quedaba era volver a intentar usar la DAQ como generador de una señal analógica. Inicialmente no había podido configurarla para que use las señales pre-configuradas en frecuencias altas, pero sí para que ponga un VDC como output en alguno de los canales. Lo que pensé entonces fue que como las frecuencias de nuestras señales son relativamente bajas podemos ir actualizando ese VDC constantemente para formar la señal que querramos (notemos que esto está limitado por la velocidad de ejecución de cada iteración del código que implica una comunicación completa entre la computadora y la DAQ con lo cual no funcionaría para generar la señal sinusoidal de 50 kHz para el RLC). 
+
+El código para manejar la placa terminó siendo el siguiente: 
+
+
+\begin{lstlisting}
+import numpy as np
+import time
+from scipy.interpolate import interp1d
+from PyIOTech.daq import daqDevice
+from PyIOTech.daqh import DddtLocal
+
+fs = 100              
+duracion = 3600       
+fmin, fmax = 0, 4    
+amplitud = 3.0
+
+N = int(fs * duracion)
+tiempos = np.arange(N) / fs
+
+freqs = np.fft.rfftfreq(N, 1/fs)
+espectro = np.zeros(len(freqs), dtype=complex)
+indices = np.where((freqs >= fmin) & (freqs <= fmax))[0]
+espectro[indices] = np.exp(1j * 2 * np.pi * np.random.rand(len(indices)))
+
+senal = np.fft.irfft(espectro)
+senal *= amplitud / np.max(np.abs(senal))
+
+interpolador = interp1d(tiempos, senal, kind='linear', fill_value='extrapolate')
+
+
+dev = daqDevice(device_name)
+t_prev = time.perf_counter()
+t_actual = 0.0  
+
+while t_actual < duracion:
+	t_now = time.perf_counter()
+	dt_actual = t_now - t_prev
+	t_actual += dt_actual
+	t_prev = t_now	
+	
+	v = float(interpolador(t_actual))
+	dev.DacWt(deviceType, channel, v)
+finally:
+	dev.DacWt(deviceType, channel, 0.0)
+	dev.Close()
+
+\end{lstlisting}
+
+
+Este código genera una señal muy larga y la va evaluando en los tiempos que la placa le pregunta a la computadora el siguiente voltaje, mediante interpolación (aunque al generar la señal con una frecuencia de muestreo muy alta esto no debería introducir error). Probé generar la señal en tiempo real pasando ruido blanco por un filtro pasabajos exponencial pero no terminaba de limitar bien la banda de frecuencias y quedaba muy ruidosa la señal. 
+
+En el osciloscopio verifiqué que seguro hasta 17 Hz funciona bien este método para generar senos, y seguro más frecuencia también. Después verifiqué que el ruido se veía razonable. Por ultimo levanté con la otra DAQ la señal para verificar que esté bien limitada y de fase aleatoria y así resultó. 
+
+
+\begin{figure}[th!]
+	\centering
+	\includegraphics[width=0.9897\linewidth]{Figures/06_10_2025/Usar_DAQ_para_generar_ruido_0_4_Hz_con_fase}
+	\caption{Señal de ruido limitado en frecuencia generado por la DAQ.}
+	\label{fig:usardaqparagenerarruido04hzconfase}
+\end{figure}
+
+
+
+
  
  
