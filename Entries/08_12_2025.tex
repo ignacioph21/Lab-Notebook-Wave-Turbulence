@@ -123,7 +123,7 @@ Lo primero a ver es la nube de puntos que obtenemos para cada una de las ondas i
 
 \begin{figure}[th!]
 	\centering
-	\includegraphics[width=0.7\linewidth]{Figures/08_12_2025/joint_level_curves}
+	\includegraphics[width=0.87\linewidth]{Figures/08_12_2025/joint_level_curves}
 	\caption{Gráfico para la densidad 2D del conjunto de puntos $(T_i, H_i)$ de las ondas individuales. } 
 	\label{fig:jointlevelcurves}
 \end{figure}
@@ -131,8 +131,8 @@ Lo primero a ver es la nube de puntos que obtenemos para cada una de las ondas i
 Si vemos lo que pasa para los demás datos tenemos la siguiente progresión. 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.7\linewidth]{Figures/08_12_2025/Progresión}
-	\caption{}
+	\includegraphics[width=0.987\linewidth]{Figures/08_12_2025/Progresión}
+	\caption{Curvas que encierran el 67 \% de los puntos para los distintos forzados y curva $S_{\text{lím}}$. }
 	\label{fig:progresion}
 \end{figure}
 
@@ -141,7 +141,7 @@ Donde las curvas graficadas se corresponden con la curva de nivel que encierra a
 La línea sólida se corresponde con lo que sería el steepness máximo correspondientes a ondas de Stokes (en la teorpia lineal): 
 
 \begin{equation}
-	S_{text{lím}} = \frac{H_{\text{máx}}}{L(T)} \approx \frac{1}{7} \tanh{k(T)d} 
+	S_{\text{lím}} = \frac{H_{\text{máx}}}{L(T)} \approx \frac{1}{7} \tanh{k(T)d} 
 \end{equation}
 
 Donde $d=(4.45\pm0.05)$ cm es la altura del agua en la cuba. Eventualmente para el caso donde ya no es tan débilmente no lineal se cruza esta línea de altura máxima y tenemos más steepness incluso (entraríamos en strong turbulence). Me gustaría realizar mediciones específicamente dedicadas a esto con el factor de calibración bien determinado por las dudas (o estimar la gravedad con el sensor sin calibrar, o bien usar los datos de este mapa para hallar el factor de calibración si suponemos que su límite es la línea).  
@@ -181,16 +181,16 @@ Y algunas de las distribuciones son las siguientes:
 					\subcaption{}
 				\end{subfigure}
 				\end{minipage}
-		\begin{minipage}[c]{0.325\textwidth}
-			\begin{subfigure}{\textwidth}
-				\centering
-				\includegraphics[width=0.98\textwidth]{Figures/08_12_2025/Distribuciones log-normal full/12}
-				\captionsetup{width=0.8\textwidth}
-				\subcaption{}
-			\end{subfigure}
-		\end{minipage}		
 
 			
+		\begin{minipage}[c]{0.325\textwidth}
+		\begin{subfigure}{\textwidth}
+			\centering
+			\includegraphics[width=0.98\textwidth]{Figures/08_12_2025/Distribuciones log-normal full/12}
+			\captionsetup{width=0.8\textwidth}
+			\subcaption{}
+		\end{subfigure}
+		\end{minipage}		
 		\begin{minipage}[c]{0.325\textwidth}
 		\begin{subfigure}{\textwidth}
 			\centering
@@ -229,8 +229,8 @@ Y algunas de las distribuciones son las siguientes:
 		\subcaption{}
 	\end{subfigure}
 	\end{minipage}
-	\caption{Algunas distribuciones de probabilidad $S/S_\text{rms}$ para las pdfs promediadas en ventanas temporales con overlap. La cantidad de bins es la raíz cuadrada de la cantidad de ondas individuales en cada histograma. Para el ajuste se tomaron los puntos centrales de los bins como coordenada x. }
-	\label{fig:}
+	\caption{Algunas distribuciones de probabilidad $S/S_\text{rms}$ para las pdfs promediadas en ventanas temporales con overlap. La cantidad de bins es la raíz cuadrada de la cantidad de ondas individuales en cada histograma. Para el ajuste se tomaron los puntos centrales de los bins como coordenada x. Faltaría calcular el $\chi_\nu^2$ y $R^2$ para saber que Tan bien dio el Ajuste. } % t 
+	\label{fig:distribuciones}
 \end{figure}
 
 Uno de los modelos propuestos por \cite{tayfunDistributionsWaveSteepness2006} es una función log-normal de la forma: 
@@ -264,19 +264,19 @@ Usando relaciones de dispersión completa y de gravedad en aguas profundas.
 					\centering
 					\includegraphics[width=0.978\textwidth]{Figures/08_12_2025/Mena_wave_steepness_deep_gravity.png}
 					\captionsetup{width=0.8\textwidth}
-					\subcaption{.}
-					\label{fig:}
+					\subcaption{Relación de dispersión gravedad (aguas profundas).}
+					% \label{fig:}
 				\end{subfigure}
-		\end{minipage}\begin{minipage}[c]{0.49\textwidth}
+		\end{minipage}\begin{minipage}[c]{0.49\textwidth} 
 			\begin{subfigure}{\textwidth}
 					\centering
 					\includegraphics[width=0.978\textwidth]{Figures/08_12_2025/Mena_wave_steepness_full.png}
 					\captionsetup{width=0.8\textwidth}
-					\subcaption{.}
-					\label{fig:}
+					\subcaption{Relación de dispersión completa (profundidad $d$).}
+					% \label{fig:}
 				\end{subfigure}
 		\end{minipage}
-	\caption{}
+	\caption{Mean Wave Steepness para los distintos forzados utilizando distintas relaciones de dispersión en los datos. }
 	\label{fig:}
 \end{figure}
 
@@ -326,6 +326,9 @@ El otro tipo de mediciones que hice fue con una serie temporal en el forzado que
 	\label{fig:transitorio06hz}
 \end{figure}
 
+Se puede notar cómo se va prendiendo la cascada de energía directa y se van poblando las distintas escalas del flujo a medida que pasa el tiempo. % a    
+
+\vspace{2.5cm} %  
 
 \section{¿Observación de Sandpiles en el transitorio?} 
 Por último, en el espectro de 0-4 Hz parecieran observarse las sandpiles, ya que se acumula energía en frecuencias bajas y después salta al doble, y así sucesivamente. 
